@@ -17,12 +17,12 @@ $n    = 100;
 <p class="nuzul-eyebrow">FLOORS · الأقسام</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading -->
-<h2 class="wp-block-heading">اختار من وين تبلّش</h2>
+<h2 class="wp-block-heading">تسوّق حسب القسم</h2>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->
 <!-- wp:paragraph -->
-<p><a href="<?php echo esc_url( nuzul_link( 'shop' ) ); ?>">كل المنتجات ←</a></p>
+<p><a href="<?php echo esc_url( nuzul_link( 'shop' ) ); ?>">جميع المنتجات ←</a></p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->

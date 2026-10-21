@@ -7,10 +7,10 @@ from bs4 import BeautifulSoup
 SRC = sys.argv[1]
 
 STRINGS = {
-    "Add to cart": "أضف للسلة",
-    "Showing all 19 results": "كل المنتجات (19)",
+    "Add to cart": "أضف إلى السلة",
+    "Showing all 19 results": "عرض جميع المنتجات (19)",
     "Description": "الوصف",
-    "Related products": "منتجات ممكن تعجبك",
+    "Related products": "منتجات ذات صلة",
     "Category:": "التصنيف:",
     "SKU:": "رمز المنتج:",
     "Home": "الرئيسية",
@@ -55,12 +55,12 @@ for root, _, files in os.walk(SRC):
                 continue
             a = soup.new_tag("a", href=href)
             a["class"] = ["button", "wp-element-button", "wp-block-button__link", "wc-block-components-product-button__button"]
-            a.string = "شوف المنتج"
+            a.string = "عرض المنتج"
             el.replace_with(a)
         for form in soup.select("form.cart"):
             form.decompose()
         for a in soup.select(".nuzul-wa-product a"):
-            a.string = "اطلب عالواتساب"
+            a.string = "اطلب عبر واتساب"
             a["class"] = ["nuzul-wa-link", "is-solid"]
         # Placeholder WhatsApp number must not reach a real person from the demo.
         for a in soup.find_all("a", href=re.compile(r"wa\.me/")):
@@ -75,7 +75,6 @@ for root, _, files in os.walk(SRC):
         for en, ar in STRINGS.items():
             html = re.sub(r">(\s*)" + re.escape(en) + r"(\s*)<", lambda m: ">" + m.group(1) + ar + m.group(2) + "<", html)
         html = html.replace("</head>", CSS + "</head>", 1)
-        html = re.sub(r"(<body[^>]*>)", r"\1" + BANNER, html, count=1)
         html = html.replace("</body>", NAV_JS + "</body>", 1)
         open(p, "w", encoding="utf-8").write(html)
 print("done")

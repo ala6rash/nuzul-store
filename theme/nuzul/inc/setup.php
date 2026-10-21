@@ -56,7 +56,7 @@ function nuzul_setup_page() {
 			<li>تفعيل <strong>الدفع عند الاستلام</strong>.</li>
 			<li>مناطق شحن: عمّان 2 د.أ، باقي المحافظات 3 د.أ، ومجاني للطلبات فوق 35 د.أ.</li>
 			<li>تصنيفات المنتجات و19 منتج بأسعار مقترحة وصور مؤقتة (اختياري).</li>
-			<li>صفحات: التوصيل والتبديل، من نحن، تواصل معنا.</li>
+			<li>صفحات: التوصيل والاستبدال، من نحن، تواصل معنا.</li>
 			<li>روابط الموقع بصيغة مقروءة (/shop/ بدل ?p=12).</li>
 		</ol>
 		<form method="post">
@@ -110,7 +110,7 @@ function nuzul_run_setup( $args ) {
 	$log[] = 'حفظت بيانات التواصل.';
 
 	if ( in_array( get_option( 'blogdescription' ), array( '', 'Just another WordPress site' ), true ) ) {
-		update_option( 'blogdescription', 'رفاهية الفندق، ببيتك' );
+		update_option( 'blogdescription', 'رفاهية الفندق، في منزلك' );
 	}
 
 	if ( ! get_option( 'permalink_structure' ) ) {
@@ -158,8 +158,8 @@ function nuzul_run_setup( $args ) {
 	$cod = array_merge( (array) get_option( 'woocommerce_cod_settings', array() ), array(
 		'enabled'            => 'yes',
 		'title'              => 'الدفع عند الاستلام',
-		'description'        => 'بتدفع كاش للمندوب لما يوصلك الطلب.',
-		'instructions'       => 'رح نتواصل معك عالواتساب لتأكيد الطلب وموعد التوصيل.',
+		'description'        => 'ادفع نقداً عند استلام طلبك.',
+		'instructions'       => 'شكراً لطلبك. سنتواصل معك عبر واتساب أو الهاتف لتأكيد الطلب وتحديد موعد التوصيل.',
 		'enable_for_methods' => array(),
 		'enable_for_virtual' => 'yes',
 	) );
@@ -240,7 +240,7 @@ function nuzul_run_setup( $args ) {
 
 	// Info pages.
 	$pages = array(
-		'delivery-returns' => array( 'التوصيل والتبديل', nuzul_page_delivery() ),
+		'delivery-returns' => array( 'التوصيل والاستبدال', nuzul_page_delivery() ),
 		'about'            => array( 'من نحن', nuzul_page_about() ),
 		'contact'          => array( 'تواصل معنا', nuzul_page_contact() ),
 	);
@@ -249,7 +249,7 @@ function nuzul_run_setup( $args ) {
 			wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $pg[0], 'post_content' => $pg[1] ) );
 		}
 	}
-	$log[] = 'أنشأت صفحات التوصيل والتبديل، من نحن، وتواصل معنا.';
+	$log[] = 'أنشأت صفحات التوصيل والاستبدال، من نحن، وتواصل معنا.';
 
 	// Arabic title for the shop page.
 	$shop = wc_get_page_id( 'shop' );
@@ -266,55 +266,51 @@ function nuzul_run_setup( $args ) {
 function nuzul_page_delivery() {
 	return <<<HTML
 <!-- wp:paragraph {"fontSize":"lg"} -->
-<p class="has-lg-font-size">بنوصّل لكل محافظات المملكة، والدفع كاش عند الاستلام.</p>
+<p class="has-lg-font-size">نوصل الطلبات إلى جميع محافظات المملكة الأردنية الهاشمية، ويتم الدفع نقداً عند الاستلام.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2 class="wp-block-heading">التوصيل</h2>
+<h2 class="wp-block-heading">رسوم ومدة التوصيل</h2>
 <!-- /wp:heading -->
 
 <!-- wp:table {"className":"nuzul-table"} -->
-<figure class="wp-block-table nuzul-table"><table><thead><tr><th>المنطقة</th><th>السعر</th><th>المدة</th></tr></thead><tbody><tr><td>عمّان</td><td>2 د.أ</td><td>خلال 24 – 48 ساعة</td></tr><tr><td>باقي المحافظات</td><td>3 د.أ</td><td>2 – 3 أيام عمل</td></tr><tr><td>الطلبات فوق 35 د.أ</td><td>مجاني</td><td>حسب المنطقة</td></tr></tbody></table></figure>
+<figure class="wp-block-table nuzul-table"><table><thead><tr><th>المنطقة</th><th>الرسوم</th><th>المدة المتوقعة</th></tr></thead><tbody><tr><td>عمّان</td><td>2 د.أ</td><td>24 – 48 ساعة</td></tr><tr><td>باقي المحافظات</td><td>3 د.أ</td><td>2 – 3 أيام عمل</td></tr><tr><td>الطلبات التي تبلغ 35 د.أ أو أكثر</td><td>مجاناً</td><td>حسب المنطقة</td></tr></tbody></table></figure>
 <!-- /wp:table -->
 
 <!-- wp:paragraph -->
-<p>بعد ما تطلب، بنتواصل معك عالواتساب لنأكد الطلب والعنوان وموعد التوصيل.</p>
+<p>بعد استلام طلبك، نتواصل معك عبر واتساب أو الهاتف لتأكيد الطلب والعنوان وموعد التوصيل. أيام العمل من الأحد إلى الخميس.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2 class="wp-block-heading">التبديل والإرجاع</h2>
+<h2 class="wp-block-heading">سياسة الاستبدال والإرجاع</h2>
 <!-- /wp:heading -->
 
 <!-- wp:list -->
-<ul><li>بتقدر تبدّل أي منتج خلال 7 أيام من الاستلام إذا كان بتغليفه الأصلي وما انفتح.</li><li>منتجات العناية الشخصية (الشامبو، اللوشن، أطقم الأسنان) ما بتنرجع بعد فتحها لأسباب صحية.</li><li>إذا وصلك منتج فيه عيب، صوّره وابعتلنا عالواتساب وبنبدّله على حسابنا.</li></ul>
+<ul><li>يمكن استبدال المنتج أو إرجاعه خلال 7 أيام من تاريخ الاستلام، بشرط أن يكون في تغليفه الأصلي وغير مستخدم.</li><li>لا تُستبدل منتجات العناية الشخصية (الشامبو، واللوشن، وأطقم الأسنان، وأغطية الاستحمام) بعد فتحها، حفاظاً على الصحة العامة.</li><li>في حال وصول منتج تالف أو مختلف عن الطلب، يرجى إرسال صورة له عبر واتساب خلال 48 ساعة من الاستلام، وسنستبدله دون أي رسوم إضافية.</li><li>يتحمّل العميل رسوم التوصيل في حالات الاستبدال لأسباب غير متعلقة بعيب في المنتج.</li></ul>
 <!-- /wp:list -->
 HTML;
 }
 
 function nuzul_page_about() {
-	return <<<HTML
-<!-- wp:paragraph {"fontSize":"lg"} -->
-<p class="has-lg-font-size">نُزُل بتجيب تفاصيل غرف الفنادق لبيتك: المنشفة الثقيلة، الروب الأبيض، الشبشب اللي جنب التخت، والريحة اللي بتحس فيها أول ما تفتح باب الغرفة.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>إحنا من عمّان، وبنختار منتجاتنا من نفس المورّدين اللي بيتعاملوا مع الفنادق، وبنبيعها بالحبة وبأطقم وصناديق جاهزة للهدايا وللضيوف.</p>
-<!-- /wp:paragraph -->
-HTML;
+	return '';
 }
 
 function nuzul_page_contact() {
 	return <<<HTML
 <!-- wp:paragraph {"fontSize":"lg"} -->
-<p class="has-lg-font-size">أسرع طريقة توصلنا فيها هي الواتساب. بنرد من الأحد للخميس، 10 الصبح لـ 8 المسا.</p>
+<p class="has-lg-font-size">يسعدنا الرد على استفساراتكم من الأحد إلى الخميس، من الساعة 10 صباحاً حتى 6 مساءً.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:shortcode -->
 [nuzul_contact]
 <!-- /wp:shortcode -->
 
+<!-- wp:paragraph -->
+<p>للطلبات الخاصة بالشركات والمناسبات، يرجى ذكر المنتجات والكميات المطلوبة وموعد التسليم، وسنرسل لكم عرض سعر.</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:shortcode -->
-[nuzul_whatsapp label="ابعتلنا عالواتساب" class="is-solid"]
+[nuzul_whatsapp label="راسلنا عبر واتساب" class="is-solid"]
 <!-- /wp:shortcode -->
 HTML;
 }

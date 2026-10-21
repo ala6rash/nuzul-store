@@ -5,10 +5,10 @@
  * Categories: nuzul
  */
 $steps = array(
-	array( 'اختار منتجاتك', 'حط اللي بدك إياه بالسلة. بتقدر تطلب حبة وحدة أو صندوق كامل.' ),
-	array( 'اكتب عنوانك', 'الاسم، رقم التلفون، المحافظة والعنوان. بدون حساب وبدون بطاقة.' ),
-	array( 'بنأكد عالواتساب', 'بنبعتلك رسالة نأكد فيها الطلب وموعد التوصيل.' ),
-	array( 'استلم وادفع', 'المندوب بيوصلك الطلب وبتدفع كاش.' ),
+	array( 'اختر منتجاتك', 'أضف المنتجات إلى سلة التسوق، قطعة واحدة أو صندوقاً كاملاً.' ),
+	array( 'أدخل بيانات التوصيل', 'الاسم ورقم الهاتف والمحافظة والعنوان، دون الحاجة إلى إنشاء حساب.' ),
+	array( 'تأكيد الطلب', 'نتواصل معك عبر واتساب لتأكيد الطلب وتحديد موعد التوصيل.' ),
+	array( 'الاستلام والدفع', 'يصلك الطلب إلى العنوان المحدد، وتدفع نقداً عند الاستلام.' ),
 );
 ?>
 <!-- wp:group {"className":"nuzul-how","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|60"}}}} -->
@@ -16,10 +16,10 @@ $steps = array(
 <!-- wp:group {"align":"wide","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0.25rem"}}} -->
 <div class="wp-block-group alignwide">
 <!-- wp:paragraph {"className":"nuzul-eyebrow"} -->
-<p class="nuzul-eyebrow">CHECK-IN · طريقة الطلب</p>
+<p class="nuzul-eyebrow">CHECK-IN · خطوات الطلب</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading -->
-<h2 class="wp-block-heading">أربع خطوات وبيوصلك</h2>
+<h2 class="wp-block-heading">كيف تطلب؟</h2>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->

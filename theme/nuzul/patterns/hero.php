@@ -15,15 +15,15 @@
 <p class="nuzul-eyebrow">ROOM SERVICE · خدمة الغرف</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":1,"className":"nuzul-hero-title"} -->
-<h1 class="wp-block-heading nuzul-hero-title">رفاهية الفندق،<br>ببيتك.</h1>
+<h1 class="wp-block-heading nuzul-hero-title">رفاهية الفندق،<br>في منزلك.</h1>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"fontSize":"lg","textColor":"muted"} -->
-<p class="has-muted-color has-text-color has-lg-font-size">مناشف ثقيلة، أرواب قطن، شباشب، وأطقم عناية بنفس الجودة اللي بتلاقيها بغرف الفنادق. بتوصلك لباب البيت وبتدفع عند الاستلام.</p>
+<p class="has-muted-color has-text-color has-lg-font-size">مناشف قطنية ثقيلة، وأرواب حمّام، وشباشب، وأطقم عناية بمواصفات غرف الفنادق، تصلك إلى باب منزلك مع خيار الدفع عند الاستلام.</p>
 <!-- /wp:paragraph -->
 <!-- wp:buttons {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->
 <div class="wp-block-buttons" style="margin-top:var(--wp--preset--spacing--50)">
 <!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( nuzul_link( 'shop' ) ); ?>">تسوّق المنتجات</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( nuzul_link( 'shop' ) ); ?>">تسوّق الآن</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"className":"is-style-outline"} -->
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( nuzul_link( 'cat:gift-boxes' ) ); ?>">صناديق الهدايا</a></div>

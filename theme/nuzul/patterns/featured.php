@@ -10,10 +10,10 @@
 <!-- wp:group {"align":"wide","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0.25rem"}}} -->
 <div class="wp-block-group alignwide">
 <!-- wp:paragraph {"className":"nuzul-eyebrow"} -->
-<p class="nuzul-eyebrow">MOST REQUESTED · الأكثر طلباً</p>
+<p class="nuzul-eyebrow">MOST REQUESTED · مختارات</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading -->
-<h2 class="wp-block-heading">اللي بيطلبوه نزلاءنا</h2>
+<h2 class="wp-block-heading">الأكثر طلباً</h2>
 <!-- /wp:heading -->
 </div>
 <!-- /wp:group -->

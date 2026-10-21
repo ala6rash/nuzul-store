@@ -10,7 +10,7 @@
 <!-- wp:group {"className":"nuzul-announce","backgroundColor":"eucalyptus","textColor":"linen","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"0.5rem","bottom":"0.5rem"}}},"fontSize":"xs"} -->
 <div class="wp-block-group nuzul-announce has-linen-color has-eucalyptus-background-color has-text-color has-background has-xs-font-size" style="padding-top:0.5rem;padding-bottom:0.5rem">
 <!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">توصيل لكل المحافظات <span class="nuzul-dot">·</span> الدفع عند الاستلام<span class="nuzul-hide-sm"> <span class="nuzul-dot">·</span> توصيل مجاني فوق 35 د.أ</span></p>
+<p class="has-text-align-center">التوصيل إلى جميع محافظات المملكة <span class="nuzul-dot">·</span> الدفع عند الاستلام<span class="nuzul-hide-sm"> <span class="nuzul-dot">·</span> توصيل مجاني للطلبات فوق 35 د.أ</span></p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->

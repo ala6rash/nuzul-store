@@ -108,7 +108,7 @@ function nuzul_img( $file ) {
  * Small dynamic blocks used inside templates (shortcodes keep them editable)
  * ---------------------------------------------------------------------- */
 add_shortcode( 'nuzul_whatsapp', function ( $atts ) {
-	$a = shortcode_atts( array( 'label' => 'اطلب عالواتساب', 'text' => 'مرحبا، بدي أسأل عن منتجات نُزُل', 'class' => '' ), $atts );
+	$a = shortcode_atts( array( 'label' => 'اطلب عبر واتساب', 'text' => 'مرحباً، أود الاستفسار عن منتجات نُزُل.', 'class' => '' ), $atts );
 	return sprintf( '<a class="nuzul-wa-link %s" href="%s" target="_blank" rel="noopener">%s</a>', esc_attr( $a['class'] ), esc_url( nuzul_wa_url( $a['text'] ) ), esc_html( $a['label'] ) );
 } );
 
@@ -119,7 +119,7 @@ add_shortcode( 'nuzul_contact', function () {
 	<ul class="nuzul-contact">
 		<li><span>واتساب</span><a href="<?php echo esc_url( nuzul_wa_url() ); ?>" dir="ltr"><?php echo esc_html( nuzul_wa_display() ); ?></a></li>
 		<li><span>إنستغرام</span><a href="<?php echo esc_url( 'https://instagram.com/' . $ig ); ?>" dir="ltr">@<?php echo esc_html( $ig ); ?></a></li>
-		<li><span>إيميل</span><a href="mailto:<?php echo esc_attr( nuzul_opt( 'nuzul_email' ) ); ?>" dir="ltr"><?php echo esc_html( nuzul_opt( 'nuzul_email' ) ); ?></a></li>
+		<li><span>البريد الإلكتروني</span><a href="mailto:<?php echo esc_attr( nuzul_opt( 'nuzul_email' ) ); ?>" dir="ltr"><?php echo esc_html( nuzul_opt( 'nuzul_email' ) ); ?></a></li>
 	</ul>
 	<?php
 	return ob_get_clean();
@@ -137,8 +137,8 @@ add_action( 'wp_footer', function () {
 		return;
 	}
 	printf(
-		'<a class="nuzul-wa-float" href="%s" target="_blank" rel="noopener" aria-label="تواصل معنا عالواتساب"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg><span>اسألنا</span></a>',
-		esc_url( nuzul_wa_url( 'مرحبا نُزُل، عندي سؤال' ) )
+		'<a class="nuzul-wa-float" href="%s" target="_blank" rel="noopener" aria-label="تواصل معنا عبر واتساب"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg><span>تواصل معنا</span></a>',
+		esc_url( nuzul_wa_url( 'مرحباً، لدي استفسار.' ) )
 	);
 } );
 
@@ -147,8 +147,8 @@ function nuzul_product_wa_button() {
 	if ( ! $product instanceof WC_Product ) {
 		return '';
 	}
-	$text = sprintf( 'مرحبا، بدي أطلب: %s (%s)', $product->get_name(), get_permalink( $product->get_id() ) );
-	return sprintf( '<p class="nuzul-wa-product"><a class="nuzul-wa-link is-outline" href="%s" target="_blank" rel="noopener">أو اطلب عالواتساب</a></p>', esc_url( nuzul_wa_url( $text ) ) );
+	$text = sprintf( 'مرحباً، أود طلب: %s (%s)', $product->get_name(), get_permalink( $product->get_id() ) );
+	return sprintf( '<p class="nuzul-wa-product"><a class="nuzul-wa-link is-outline" href="%s" target="_blank" rel="noopener">أو اطلب عبر واتساب</a></p>', esc_url( nuzul_wa_url( $text ) ) );
 }
 
 add_filter( 'render_block_woocommerce/add-to-cart-form', function ( $html ) {
@@ -164,7 +164,7 @@ add_filter( 'woocommerce_get_country_locale', function ( $locale ) {
 		'state'    => array( 'required' => true, 'hidden' => false, 'label' => 'المحافظة' ),
 		'company'  => array( 'required' => false, 'hidden' => true ),
 		'city'     => array( 'label' => 'المدينة / المنطقة' ),
-		'address_1'=> array( 'label' => 'العنوان (الحي، الشارع، رقم العمارة)' ),
+		'address_1'=> array( 'label' => 'العنوان (الحي، الشارع، رقم البناية)' ),
 	) );
 	return $locale;
 } );

@@ -25,15 +25,15 @@
 <h2 class="wp-block-heading">صندوق «ليلة بالفندق»</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"fontSize":"lg"} -->
-<p class="has-lg-font-size">روب وافل، شبشب، طقم عناية، ومنشفة حمام، مرتبين بعلبة مع كرت بخط اليد. هدية لعيد ميلاد، تخرّج، أو لحالك بعد أسبوع طويل.</p>
+<p class="has-lg-font-size">روب حمّام قطني، وشبشب، وطقم عناية، ومنشفة حمّام، في علبة هدايا أنيقة مع بطاقة إهداء مكتوبة بخط اليد. هدية مناسبة لأعياد الميلاد والتخرّج والمناسبات الخاصة.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"nuzul-price-tag"} -->
-<p class="nuzul-price-tag"><?php echo esc_html( nuzul_sku_price( 'NZ-GB-01', '39' ) ); ?> د.أ <span>توصيل مجاني لكل المملكة</span></p>
+<p class="nuzul-price-tag"><?php echo esc_html( nuzul_sku_price( 'NZ-GB-01', '39' ) ); ?> د.أ <span>شامل التوصيل المجاني إلى جميع المحافظات</span></p>
 <!-- /wp:paragraph -->
 <!-- wp:buttons -->
 <div class="wp-block-buttons">
 <!-- wp:button {"backgroundColor":"linen","textColor":"eucalyptus"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-eucalyptus-color has-linen-background-color has-text-color has-background wp-element-button" href="<?php echo esc_url( nuzul_link( 'cat:gift-boxes' ) ); ?>">شوف الصناديق</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link has-eucalyptus-color has-linen-background-color has-text-color has-background wp-element-button" href="<?php echo esc_url( nuzul_link( 'cat:gift-boxes' ) ); ?>">تصفّح الصناديق</a></div>
 <!-- /wp:button -->
 </div>
 <!-- /wp:buttons -->
