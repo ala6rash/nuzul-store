@@ -1,0 +1,216 @@
+/*
+Theme Name: Nuzul
+Theme URI: https://example.com/nuzul
+Author: Nuzul
+Description: ثيم متجر نُزُل — أدوات ومستلزمات الفنادق للبيت. ثيم بلوكات عربي (RTL) جاهز لووكومرس، مع إعداد بكبسة وحدة للأردن: دينار، دفع عند الاستلام، وشحن حسب المحافظة.
+Requires at least: 6.6
+Tested up to: 6.8
+Requires PHP: 7.4
+Version: 1.0.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: nuzul
+Tags: e-commerce, block-patterns, full-site-editing, rtl-language-support
+*/
+
+:root {
+	--nz-line: #CBD8D1;
+	--nz-radius: 18px;
+	--nz-shadow: 0 1px 2px rgb(20 35 33 / 6%), 0 8px 24px rgb(20 35 33 / 6%);
+}
+
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { text-wrap: balance; }
+:where(a, button, summary, input, select, textarea):focus-visible { outline: 2px solid var(--wp--preset--color--brass); outline-offset: 3px; }
+img { max-width: 100%; height: auto; }
+
+/* Eyebrow: brass room-plaque label, Latin in Marcellus, Arabic after the dot */
+.nuzul-eyebrow {
+	font-family: var(--wp--preset--font-family--plaque);
+	font-size: var(--wp--preset--font-size--xs);
+	letter-spacing: 0.16em;
+	color: var(--wp--preset--color--brass-deep);
+	margin: 0;
+}
+.nuzul-eyebrow.is-light { color: #D9BC8A; }
+
+/* Header */
+.nuzul-announce p { margin: 0; letter-spacing: 0.01em; }
+@media (max-width: 600px) { .nuzul-hide-sm { display: none; } }
+.nuzul-dot { color: var(--wp--preset--color--brass); padding-inline: 0.4em; }
+.nuzul-header { border-bottom: 1px solid var(--nz-line); background: var(--wp--preset--color--linen); position: sticky; top: 0; z-index: 50; }
+.admin-bar .nuzul-header { top: 32px; }
+.nuzul-logo { margin: 0; flex-shrink: 0; }
+.nuzul-logo img { display: block; }
+.nuzul-nav a { color: var(--wp--preset--color--ink); padding-block: 0.25rem; border-bottom: 1px solid transparent; }
+.nuzul-nav a:hover { border-bottom-color: var(--wp--preset--color--brass); color: var(--wp--preset--color--ink); }
+.nuzul-header-tools { color: var(--wp--preset--color--ink); }
+.nuzul-header-tools .wc-block-mini-cart__badge { background: var(--wp--preset--color--brass); color: var(--wp--preset--color--white); border-color: var(--wp--preset--color--linen); }
+.wc-block-mini-cart__button, .wc-block-customer-account a { color: var(--wp--preset--color--ink); }
+@media (max-width: 781px) {
+	.nuzul-logo img { width: 112px !important; }
+	.nuzul-header .wp-block-navigation__responsive-container-open { padding: 0.25rem; }
+	.nuzul-header > .wp-block-group { gap: 0.5rem; }
+	.nuzul-nav { order: 3; }
+}
+
+/* Hero */
+.nuzul-hero-title { font-size: clamp(2.5rem, 6vw, 4.25rem); line-height: 1.12; margin-block: 0.75rem 1rem; }
+.nuzul-hero-art { position: relative; overflow: clip; overflow-clip-margin: 24px; aspect-ratio: 1 / 1; max-width: 520px; margin-inline: auto; width: 100%; }
+.nuzul-hero-robe { width: 100%; height: 100%; object-fit: cover; border-radius: 50% 50% var(--nz-radius) var(--nz-radius); display: block; }
+.nuzul-hanger {
+	position: absolute; inset-inline-start: 3%; bottom: 7%;
+	width: 32%; aspect-ratio: 9 / 20;
+	background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen);
+	border-radius: 14px 14px 10px 10px; box-shadow: var(--nz-shadow);
+	display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+	padding: 6% 6% 0; text-align: center; transform: rotate(-6deg);
+}
+.nuzul-hanger-hole { width: 52%; aspect-ratio: 1; border-radius: 50%; background: var(--wp--preset--color--linen); margin-bottom: 18%; position: relative; }
+.nuzul-hanger-hole::after { content: ""; position: absolute; left: 50%; bottom: -26%; width: 10%; height: 30%; background: var(--wp--preset--color--linen); transform: translateX(-50%); }
+.nuzul-hanger-ar { font-family: var(--wp--preset--font-family--display); font-weight: 700; font-size: clamp(1rem, 2.4vw, 1.5rem); line-height: 1.2; }
+.nuzul-hanger-en { font-family: var(--wp--preset--font-family--plaque); font-size: clamp(0.5rem, 1vw, 0.68rem); letter-spacing: 0.14em; color: #D9BC8A; margin-top: 0.6em; line-height: 1.6; }
+.nuzul-roomno {
+	position: absolute; inset-inline-end: 4%; top: 6%;
+	font-family: var(--wp--preset--font-family--plaque); color: var(--wp--preset--color--brass-deep);
+	font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1; text-align: center;
+	border: 1.5px solid var(--wp--preset--color--brass); border-radius: 999px; padding: 0.6em 0.7em 0.5em;
+	background: var(--wp--preset--color--linen);
+}
+.nuzul-roomno span { display: block; font-size: 0.32em; letter-spacing: 0.25em; margin-bottom: 0.35em; }
+
+.wp-block-button.is-style-outline > .wp-block-button__link { border: 1.5px solid currentColor; background: transparent; color: var(--wp--preset--color--eucalyptus); }
+.wp-block-button.is-style-outline > .wp-block-button__link:hover { background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen); }
+
+/* Promises */
+.nuzul-promise { border-inline-start: 2px solid var(--wp--preset--color--brass); padding-inline-start: 1rem; }
+.nuzul-promise h3, .nuzul-promise p { margin: 0; }
+
+/* Category doors */
+.nuzul-cat-grid { gap: 1rem; }
+@media (max-width: 640px) { .wp-block-group.nuzul-cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; } .nuzul-cat-name { font-size: var(--wp--preset--font-size--sm); padding: 0.6rem 0.75rem 0.7rem; } }
+.nuzul-cat {
+	position: relative; display: flex; flex-direction: column; text-decoration: none; color: var(--wp--preset--color--ink);
+	background: var(--wp--preset--color--white); border: 1px solid var(--nz-line); border-radius: var(--nz-radius);
+	overflow: hidden; transition: transform .25s ease, box-shadow .25s ease;
+}
+.nuzul-cat img { aspect-ratio: 1; object-fit: cover; width: 100%; display: block; }
+.nuzul-cat-name { font-weight: 500; font-size: var(--wp--preset--font-size--md); padding: 0.75rem 1rem 0.9rem; }
+.nuzul-cat-no { position: absolute; top: 0.75rem; inset-inline-start: 0.75rem; font-family: var(--wp--preset--font-family--plaque); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--wp--preset--color--brass-deep); background: var(--wp--preset--color--linen); border-radius: 999px; padding: 0.2rem 0.6rem; direction: ltr; }
+.nuzul-cat:hover { transform: translateY(-3px); box-shadow: var(--nz-shadow); color: var(--wp--preset--color--ink); }
+
+/* Product grid: [products] shortcode and classic loops */
+.woocommerce ul.products, .nuzul-products ul.products {
+	display: grid !important; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: 1.5rem 1.25rem;
+	margin: 1.5rem 0 0 !important; padding: 0 !important; list-style: none;
+}
+.woocommerce ul.products::before, .woocommerce ul.products::after { display: none !important; }
+.woocommerce ul.products li.product {
+	width: auto !important; float: none !important; margin: 0 !important;
+	display: flex; flex-direction: column; gap: 0.35rem; text-align: center;
+}
+.woocommerce ul.products li.product a img { border-radius: var(--nz-radius); margin: 0 0 0.6rem !important; background: var(--wp--preset--color--porcelain); transition: transform .3s ease; }
+.woocommerce ul.products li.product a:hover img { transform: scale(1.015); }
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+	font-family: var(--wp--preset--font-family--body); font-weight: 450; font-size: var(--wp--preset--font-size--sm) !important;
+	line-height: 1.6; padding: 0 !important; color: var(--wp--preset--color--ink);
+}
+.woocommerce ul.products li.product a { text-decoration: none; }
+.woocommerce ul.products li.product .price { color: var(--wp--preset--color--eucalyptus) !important; font-weight: 600; font-size: var(--wp--preset--font-size--md) !important; margin: 0 !important; font-variant-numeric: tabular-nums; }
+.woocommerce ul.products li.product .button {
+	margin-top: auto !important; align-self: center; border-radius: 999px !important;
+	background: transparent !important; color: var(--wp--preset--color--eucalyptus) !important;
+	border: 1.5px solid var(--wp--preset--color--eucalyptus) !important; font-weight: 500 !important; font-size: var(--wp--preset--font-size--xs) !important; padding: 0.55rem 1.1rem !important;
+}
+.woocommerce ul.products li.product .button:hover { background: var(--wp--preset--color--eucalyptus) !important; color: var(--wp--preset--color--linen) !important; }
+.woocommerce ul.products li.product .added_to_cart { font-size: var(--wp--preset--font-size--xs); }
+.woocommerce span.onsale { background: var(--wp--preset--color--brass); border-radius: 999px; min-height: 0; min-width: 0; padding: 0.2rem 0.7rem; line-height: 1.6; }
+
+.nuzul-products ul.products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; }
+@media (min-width: 900px) { .nuzul-products ul.products { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Product Collection block (Woo's shop/category templates) */
+.wc-block-product-template .wc-block-components-product-image img,
+.wp-block-woocommerce-product-image img { border-radius: var(--nz-radius); background: var(--wp--preset--color--porcelain); }
+.wc-block-product-template .wp-block-post-title { font-family: var(--wp--preset--font-family--body) !important; font-weight: 450; font-size: var(--wp--preset--font-size--sm) !important; line-height: 1.6; }
+.wc-block-product-template .wp-block-post-title a { text-decoration: none; color: var(--wp--preset--color--ink); }
+.wc-block-product-template .wc-block-components-product-price, .wp-block-woocommerce-product-price { color: var(--wp--preset--color--eucalyptus); font-weight: 600; font-variant-numeric: tabular-nums; }
+.wc-block-product-template .wp-block-button__link,
+.wc-block-components-product-button .wp-block-button__link {
+	background: transparent; color: var(--wp--preset--color--eucalyptus); border: 1.5px solid var(--wp--preset--color--eucalyptus);
+	font-size: var(--wp--preset--font-size--xs); padding: 0.55rem 1.1rem;
+}
+.wc-block-product-template .wp-block-button__link:hover,
+.wc-block-components-product-button .wp-block-button__link:hover { background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen); }
+.wc-block-product-template .wc-block-components-product-button { align-items: flex-start; }
+.wp-block-woocommerce-product-collection { margin-block-end: var(--wp--preset--spacing--70); }
+.woocommerce-breadcrumb, .wc-block-breadcrumbs { font-size: var(--wp--preset--font-size--xs); color: var(--wp--preset--color--muted); }
+.wp-block-query-title, .wp-block-woocommerce-product-collection + * { text-wrap: balance; }
+
+/* Single product */
+.woocommerce-product-gallery__image img, .wp-block-woocommerce-product-image-gallery img { border-radius: var(--nz-radius); }
+.wc-block-components-product-button__button { border-radius: 999px !important; border: 1.5px solid var(--wp--preset--color--eucalyptus) !important; background: transparent !important; color: var(--wp--preset--color--eucalyptus) !important; font-size: var(--wp--preset--font-size--xs) !important; padding: 0.55rem 1.2rem !important; }
+.wc-block-components-product-button__button:hover { background: var(--wp--preset--color--eucalyptus) !important; color: var(--wp--preset--color--linen) !important; }
+.single-product .wp-block-post-title { font-size: var(--wp--preset--font-size--xl); }
+.wp-block-woocommerce-add-to-cart-form .single_add_to_cart_button,
+.wc-block-add-to-cart-form .single_add_to_cart_button { border-radius: 999px !important; background: var(--wp--preset--color--eucalyptus) !important; color: var(--wp--preset--color--linen) !important; padding: 0.85rem 2rem !important; font-weight: 500; }
+.wp-block-woocommerce-add-to-cart-form .quantity .qty { border-radius: 999px; border: 1px solid var(--nz-line); padding: 0.65rem; min-height: 46px; }
+.nuzul-wa-product { margin-top: 0.5rem; }
+
+/* WhatsApp links */
+.nuzul-wa-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--wp--preset--color--eucalyptus); font-weight: 500; }
+.nuzul-wa-link.is-outline, .nuzul-wa-link.is-solid { text-decoration: none; border-radius: 999px; padding: 0.75rem 1.5rem; border: 1.5px solid var(--wp--preset--color--eucalyptus); }
+.nuzul-wa-link.is-solid { background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen); }
+.nuzul-wa-link.is-outline:hover { background: var(--wp--preset--color--porcelain); }
+.nuzul-wa-float {
+	position: fixed; z-index: 90; inset-inline-start: calc(16px + env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+	display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1rem 0.7rem 1.1rem; border-radius: 999px;
+	background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen); text-decoration: none; font-weight: 500; font-size: var(--wp--preset--font-size--sm);
+	box-shadow: 0 6px 22px rgb(20 35 33 / 25%);
+}
+.nuzul-wa-float:hover { background: var(--wp--preset--color--ink); color: var(--wp--preset--color--linen); }
+@media (max-width: 600px) { .nuzul-wa-float span { display: none; } .nuzul-wa-float { padding: 0.8rem; } }
+
+/* Gift band */
+.nuzul-gift-img img { border-radius: 50% 50% var(--nz-radius) var(--nz-radius); max-width: min(100%, 440px); width: 100%; margin-inline: auto; display: block; }
+.nuzul-price-tag { font-family: var(--wp--preset--font-family--display); font-size: var(--wp--preset--font-size--xl); font-weight: 600; margin-block: 0.5rem 1.25rem; font-variant-numeric: tabular-nums; }
+.nuzul-price-tag span { display: block; font-family: var(--wp--preset--font-family--body); font-size: var(--wp--preset--font-size--sm); font-weight: 350; color: #C9D6D1; }
+
+/* Steps */
+.nuzul-steps { gap: 1.5rem; }
+.nuzul-step { border-top: 1px solid var(--nz-line); padding-top: 1rem; }
+.nuzul-step p, .nuzul-step h3 { margin: 0; }
+.nuzul-step-no { font-family: var(--wp--preset--font-family--plaque); color: var(--wp--preset--color--brass-deep); font-size: 1.6rem; line-height: 1; direction: ltr; text-align: end; }
+
+/* FAQ */
+.nuzul-faq .wp-block-details summary { font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.nuzul-faq .wp-block-details summary::-webkit-details-marker { display: none; }
+.nuzul-faq .wp-block-details summary::after { content: "+"; color: var(--wp--preset--color--brass-deep); font-size: 1.3rem; line-height: 1; }
+.nuzul-faq .wp-block-details[open] summary::after { content: "−"; }
+.nuzul-faq .wp-block-details p { margin-block: 0.6rem 0; }
+
+/* Footer */
+.nuzul-footer .nuzul-foot-h { font-family: var(--wp--preset--font-family--plaque); letter-spacing: 0.12em; color: #D9BC8A; font-weight: 400; }
+.nuzul-foot-list, .nuzul-contact { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.nuzul-footer a { text-decoration: none; }
+.nuzul-footer a:hover { text-decoration: underline; color: #D9BC8A; }
+.nuzul-contact li { display: flex; flex-direction: column; gap: 0.1rem; }
+.nuzul-contact span { font-size: var(--wp--preset--font-size--xs); opacity: 0.7; }
+.nuzul-footer p { margin: 0; }
+.nuzul-contact a { unicode-bidi: plaintext; text-align: start; }
+
+/* Content pages */
+.nuzul-page-title { margin-bottom: var(--wp--preset--spacing--50); }
+.wp-block-table.nuzul-table table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.wp-block-table.nuzul-table th, .wp-block-table.nuzul-table td { border: 0; border-bottom: 1px solid var(--nz-line); padding: 0.75rem 0.5rem; text-align: start; }
+.wp-block-table.nuzul-table thead { border-bottom: 2px solid var(--wp--preset--color--eucalyptus); }
+.nuzul-contact { margin-block: 1.5rem; }
+
+/* Cart / checkout blocks */
+.wc-block-components-button:not(.is-link) { border-radius: 999px; }
+.wc-block-cart__submit-button, .wc-block-components-checkout-place-order-button { background: var(--wp--preset--color--eucalyptus) !important; color: var(--wp--preset--color--linen) !important; }
+.wc-block-components-text-input input, .wc-block-components-combobox .wc-block-components-combobox-control input, .wc-blocks-components-select__select { border-radius: 12px !important; }
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { transition: none !important; animation: none !important; }
+}
