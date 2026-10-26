@@ -5,8 +5,9 @@ SITE=${1:-http://localhost:8080/}; OUT=$2; TMP=$(mktemp -d); HERE=$(cd "$(dirnam
 cd "$TMP"
 wget -q -r -l 4 -p -E -k -nH --restrict-file-names=nocontrol \
  --reject-regex '(/cart/|checkout|my-account|wp-admin|wp-login|wp-json|feed|xmlrpc|add-to-cart|comments|author|/page/[0-9]+/$|oembed|orderby|\?p=)' "$SITE" || true
-python3 "$HERE/make_demo.py" "$TMP"
-find "$TMP" -name "*.js*" -delete
+curl -s "${SITE%/}/wp-json/wc/store/v1/products?per_page=100" > "$TMP.products.json"
+python3 "$HERE/make_demo.py" "$TMP" "$TMP.products.json"
+find "$TMP" \( -name "*.js" -o -name "*.js?*" -o -name "*.json*" \) -not -path "*/assets/nz/*" -delete
 python3 - "$TMP" <<'PY'
 import os,re,sys
 root=sys.argv[1]

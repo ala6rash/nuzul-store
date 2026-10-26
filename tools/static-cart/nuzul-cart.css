@@ -1,0 +1,86 @@
+/* Nuzul static cart — uses the theme's preset tokens */
+.nz-cart-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 0; background: transparent; color: var(--wp--preset--color--ink); cursor: pointer; border-radius: 999px; }
+.nz-cart-btn:hover { background: var(--wp--preset--color--porcelain); }
+.nz-badge { position: absolute; top: 0; inset-inline-start: 0; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px; background: var(--wp--preset--color--brass); color: #fff; font: 600 11px/18px var(--wp--preset--font-family--body); text-align: center; }
+html.nz-lock, html.nz-lock body { overflow: hidden; }
+
+.nz-drawer { position: fixed; inset: 0; z-index: 1000; }
+.nz-scrim { position: absolute; inset: 0; background: rgb(20 35 33 / 45%); }
+.nz-panel { position: absolute; top: 0; bottom: 0; inset-inline-end: 0; width: min(420px, 100%); background: var(--wp--preset--color--linen); display: flex; flex-direction: column; box-shadow: 0 0 40px rgb(20 35 33 / 25%); padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.nz-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid #CBD8D1; }
+.nz-panel-head h2 { margin: 0; font-size: 1.25rem; }
+.nz-x { border: 0; background: transparent; font-size: 1.8rem; line-height: 1; cursor: pointer; color: var(--wp--preset--color--ink); width: 40px; height: 40px; border-radius: 999px; }
+.nz-x:hover { background: var(--wp--preset--color--porcelain); }
+.nz-panel-body { flex: 1; overflow-y: auto; padding: 0.5rem 1.25rem; }
+.nz-panel-foot { padding: 1rem 1.25rem 1.25rem; border-top: 1px solid #CBD8D1; display: grid; gap: 0.6rem; }
+.nz-panel-foot:empty { display: none; }
+
+.nz-lines { list-style: none; margin: 0; padding: 0; display: grid; }
+.nz-line { display: grid; grid-template-columns: 64px 1fr auto; gap: 0.75rem; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid #E4EAE6; }
+.nz-line img, .nz-noimg { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; background: var(--wp--preset--color--porcelain); display: block; }
+.nz-line-main { display: grid; gap: 0.2rem; min-width: 0; }
+.nz-line-name { color: var(--wp--preset--color--ink); text-decoration: none; font-size: 0.92rem; line-height: 1.5; }
+.nz-line-name:hover { text-decoration: underline; }
+.nz-line-unit, .nz-line-qty { font-size: 0.8rem; color: var(--wp--preset--color--muted); font-variant-numeric: tabular-nums; }
+.nz-line-end { display: grid; justify-items: end; gap: 0.25rem; font-variant-numeric: tabular-nums; font-size: 0.92rem; }
+.nz-lines.is-compact .nz-line { grid-template-columns: 48px 1fr auto; }
+.nz-lines.is-compact img, .nz-lines.is-compact .nz-noimg { width: 48px; height: 48px; }
+
+.nz-stepper { display: inline-flex; align-items: center; border: 1px solid #CBD8D1; border-radius: 999px; width: max-content; margin-top: 0.2rem; }
+.nz-stepper button, .nz-buy-step { border: 0; background: transparent; width: 32px; height: 32px; font-size: 1.1rem; cursor: pointer; color: var(--wp--preset--color--eucalyptus); border-radius: 999px; }
+.nz-stepper span { min-width: 1.6rem; text-align: center; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+.nz-link { border: 0; background: none; color: var(--wp--preset--color--muted); font-size: 0.8rem; cursor: pointer; text-decoration: underline; padding: 0; }
+
+.nz-row { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; margin: 0; }
+.nz-row.is-total { font-size: 1.1rem; padding-top: 0.6rem; border-top: 1px solid #CBD8D1; margin-top: 0.3rem; }
+.nz-note { font-size: 0.82rem; color: var(--wp--preset--color--muted); margin: 0; }
+.nz-note.is-warn { color: #8a5a00; }
+.nz-free { margin: 0; font-size: 0.85rem; color: var(--wp--preset--color--brass-deep); }
+.nz-free.is-ok { color: var(--wp--preset--color--eucalyptus); font-weight: 500; }
+
+.nz-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1.5px solid var(--wp--preset--color--eucalyptus); background: var(--wp--preset--color--eucalyptus); color: var(--wp--preset--color--linen) !important; border-radius: 999px; padding: 0.8rem 1.5rem; font: 500 0.95rem/1.4 var(--wp--preset--font-family--body); text-decoration: none !important; cursor: pointer; text-align: center; }
+.nz-btn:hover { background: var(--wp--preset--color--ink); border-color: var(--wp--preset--color--ink); }
+.nz-btn.is-outline { background: transparent; color: var(--wp--preset--color--eucalyptus) !important; }
+.nz-btn.is-outline:hover { background: var(--wp--preset--color--porcelain); }
+.nz-btn.is-big { width: 100%; padding: 1rem 1.5rem; font-size: 1.05rem; }
+.nz-btn:focus-visible, .nz-cart-btn:focus-visible, .nz-x:focus-visible { outline: 2px solid var(--wp--preset--color--brass); outline-offset: 3px; }
+
+.nz-empty { display: grid; gap: 0.75rem; justify-items: start; padding: 1.5rem 0; }
+.nz-empty p { margin: 0; }
+
+.nz-toast { position: fixed; z-index: 1100; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); inset-inline-start: 50%; transform: translate(50%, 20px); background: var(--wp--preset--color--ink); color: var(--wp--preset--color--linen); padding: 0.6rem 1.1rem; border-radius: 999px; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+[dir="ltr"] .nz-toast { transform: translate(-50%, 20px); }
+.nz-toast.is-on { opacity: 1; transform: translate(50%, 0); }
+
+/* product page buy box */
+.nz-buy { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-block: 1rem 0.5rem; }
+.nz-buy-qtywrap { display: inline-flex; align-items: center; border: 1px solid #CBD8D1; border-radius: 999px; background: #fff; }
+.nz-buy-qty { width: 2.6rem; border: 0; text-align: center; font: 500 1rem var(--wp--preset--font-family--body); background: transparent; -moz-appearance: textfield; }
+.nz-buy-qty::-webkit-outer-spin-button, .nz-buy-qty::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* checkout */
+.nz-checkout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+@media (max-width: 860px) { .nz-checkout { grid-template-columns: 1fr; } .nz-summary { order: -1; } }
+.nz-h { font-size: 1.2rem !important; margin: 0 0 0.75rem; }
+.nz-form { display: grid; gap: 0.9rem; }
+.nz-field { display: grid; gap: 0.3rem; }
+.nz-field label, .nz-pay legend { font-size: 0.9rem; font-weight: 500; }
+.nz-field input, .nz-field select, .nz-field textarea { font: 400 1rem var(--wp--preset--font-family--body); padding: 0.75rem 0.9rem; border: 1px solid #CBD8D1; border-radius: 12px; background: #fff; color: var(--wp--preset--color--ink); width: 100%; box-sizing: border-box; }
+.nz-field input:focus, .nz-field select:focus, .nz-field textarea:focus { outline: 2px solid var(--wp--preset--color--eucalyptus); outline-offset: 1px; border-color: transparent; }
+.nz-pay { border: 1px solid #CBD8D1; border-radius: 12px; padding: 0.75rem 1rem; display: grid; gap: 0.5rem; margin: 0; }
+.nz-pay label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.nz-pay input { accent-color: var(--wp--preset--color--eucalyptus); width: 18px; height: 18px; }
+.nz-error { margin: 0; padding: 0.6rem 0.9rem; border-radius: 10px; background: #fbeae6; color: #8c2f1d; font-size: 0.9rem; }
+.nz-summary { background: #fff; border: 1px solid #CBD8D1; border-radius: 18px; padding: 1.25rem; display: grid; gap: 0.5rem; position: sticky; top: 110px; }
+@media (max-width: 860px) { .nz-summary { position: static; } }
+
+.nz-done { display: grid; gap: 0.9rem; max-width: 640px; }
+.nz-done p { margin: 0; }
+.nz-done-no { font-size: 0.95rem; color: var(--wp--preset--color--muted); }
+.nz-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.nz-pre { white-space: pre-wrap; word-break: break-word; background: #fff; border: 1px solid #CBD8D1; border-radius: 12px; padding: 1rem; font: 400 0.85rem/1.8 var(--wp--preset--font-family--body); margin: 0; max-height: 320px; overflow: auto; }
+
+/* hide the WhatsApp float on checkout so it doesn't cover the submit button */
+.nz-is-checkout .nuzul-wa-float { display: none; }
+
+@media (prefers-reduced-motion: reduce) { .nz-toast { transition: none; } }

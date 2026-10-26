@@ -23,9 +23,21 @@ items are hosting + domain (not bought yet).
 | Brand book + launch guide | https://ala6rash.github.io/nuzul-store/brand/ |
 | Repo | https://github.com/ala6rash/nuzul-store |
 
-GitHub Pages serves `docs/` from `main`. It is a **static export** of a local WordPress install:
-no cart, no checkout. Buy buttons were rewritten to "عرض المنتج" (view product). The real store works
-only after installing WordPress + WooCommerce on a host.
+GitHub Pages serves `docs/` from `main`. It is a **static export** of a local WordPress install with a
+**browser-side cart** (`tools/static-cart/`): add to cart → checkout page (`/order/`) → the full order
+(order number, items, governorate shipping, total, COD/CliQ, customer details) opens as a WhatsApp message
+to the store number. No server, no card payments.
+
+**Hosting decision (owner wants minimum spend):**
+1. Now — 0 JOD: WhatsApp Business + Instagram; this static store as the order form.
+2. If a branded link is wanted — ~7.5 JOD/yr: domain via Cloudflare Registrar (at cost) + **Cloudflare Pages**
+   (free) connected to this repo, output dir `docs`. Cloudflare's terms allow business sites on free plans but
+   forbid collecting card data on them (we don't).
+3. When orders are regular — Hostinger (Premium $47.88 / Unlimited $59.88 for 12 months, ex-VAT) with the
+   real WooCommerce theme from `theme/nuzul`.
+
+**GitHub Pages must NOT be used to run the live store**: GitHub's docs prohibit using Pages "to run your online
+business, e-commerce site". It's fine as a design preview only. Move to Cloudflare Pages before real selling.
 
 ## Repo map
 
@@ -48,8 +60,13 @@ docs/                     GENERATED static site for GitHub Pages (+ docs/brand/ 
 download/                 nuzul-theme.zip, nuzul-brand-kit.zip (rebuild after theme changes)
 tools/
   local-wp.sh             Local WordPress + WooCommerce on SQLite with the theme symlinked; serves :8080
-  build_demo.sh           wget-mirrors the local site → runs make_demo.py → static site folder
-  make_demo.py            Post-processes the mirror (strips JS, rewrites buy buttons, relative URLs)
+  build_demo.sh           wget-mirrors the local site + Store API product JSON → make_demo.py → static site
+  make_demo.py            Post-processes the mirror (strips WP JS, relative URLs, Arabic strings), injects the
+                          static cart, builds /order/ from the contact page. NUZUL_WHATSAPP=962XXXXXXXXX
+                          bakes in the store number (empty = wa.me share picker + "number not set" note)
+  static-cart/            nuzul-cart.js / .css — localStorage cart, drawer, checkout, WhatsApp order message.
+                          Shipping + governorates are set in make_demo.py (SHIPPING, GOVERNORATES); keep them
+                          in sync with inc/setup.php
   make_logo.py            Generates logo SVGs with text outlined (needs TTF fonts + uharfbuzz)
   make_products.py        Generates the placeholder product illustrations (SVG)
   render_svgs.js          Renders SVG → PNG with Playwright
@@ -95,7 +112,9 @@ prices, buttons), **Marcellus** (Latin plaque labels only).
 - Instagram handle `nuzul.jo` and email are placeholders.
 - Product images are illustrations; replace with real square photos (same filenames or via WooCommerce).
 - Name/trademark availability (Jordan trade registry, domain, Instagram) not checked yet.
-- Hosting + domain not purchased.
+- Hosting + domain not purchased (decision: start free, see "Hosting decision" above).
+- Shipping fee charged (Amman 2 / other 3 JOD) is below Aramex's public Amman→Amman 1 kg rate (4.00 JOD,
+  checked Oct 2026) — owner must decide courier/price.
 
 ## How the theme works
 
@@ -130,8 +149,8 @@ W="php .local-wp/wp-cli.phar --allow-root --path=.local-wp/site"
 $W post delete $($W post list --post_type=product --format=ids) --force
 $W eval 'nuzul_run_setup(["whatsapp"=>"","instagram"=>"","email"=>"","products"=>true]);'
 
-# Rebuild the GitHub Pages preview (local site must be running)
-tools/build_demo.sh http://localhost:8080/ /tmp/nuzul-demo
+# Rebuild the static store (local site must be running)
+NUZUL_WHATSAPP=962XXXXXXXXX tools/build_demo.sh http://localhost:8080/ /tmp/nuzul-demo
 rm -rf docs && mv /tmp/nuzul-demo.new docs && touch docs/.nojekyll
 #   then restore docs/brand/index.html and docs/preview.png from git if needed:
 git checkout HEAD -- docs/brand docs/preview.png
