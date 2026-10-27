@@ -274,8 +274,7 @@ function rs_run_setup( $args ) {
 			// Real photo first (manufacturer or showroom); the drawing only where no photo exists yet.
 			$has_photo = file_exists( get_theme_file_path( "assets/photos/{$p['sku']}.jpg" ) );
 			$prod->set_image_id( rs_import_image( ( $has_photo ? 'photos/' : 'art/' ) . "{$p['sku']}.jpg", $p['name'] ) );
-			$supplier = 0 === strpos( $p['sku'], 'RS-DS-' );
-			if ( $supplier && file_exists( get_theme_file_path( "assets/real/{$p['sku']}.jpg" ) ) ) {
+			if ( file_exists( get_theme_file_path( "assets/real/{$p['sku']}.jpg" ) ) ) {
 				$prod->set_gallery_image_ids( array( rs_import_image( "real/{$p['sku']}.jpg", $p['name'] . ' (صورة من المعرض)' ) ) );
 			}
 			if ( ! $has_photo ) {
