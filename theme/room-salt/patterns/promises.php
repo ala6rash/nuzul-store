@@ -4,30 +4,28 @@
  * Slug: room-salt/promises
  * Categories: room-salt
  */
+$rs_icons = array(
+	'truck'  => '<path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/>',
+	'wallet' => '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14.5h2"/>',
+	'gift'   => '<rect x="4" y="10" width="16" height="10"/><path d="M3 7h18v3H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/>',
+	'swap'   => '<path d="M4 8h13l-3-3M20 16H7l3 3"/>',
+);
 $items = array(
-	array( 'توصيل إلى جميع المحافظات', 'عمّان خلال 24 – 48 ساعة، وباقي المحافظات خلال 2 – 3 أيام عمل.' ),
-	array( 'ادفع كما يناسبك', 'نقداً عند وصول الطلب، أو بتحويل فوري عبر CliQ.' ),
-	array( 'مجاني فوق 35 د.أ', 'التوصيل علينا إذا بلغت قيمة طلبك 35 ديناراً أو أكثر.' ),
-	array( 'استبدال خلال 7 أيام', 'للمنتجات غير المفتوحة وبتغليفها الأصلي.' ),
+	array( 'truck', 'توصيل إلى جميع المحافظات', 'عمّان خلال 24 – 48 ساعة، وباقي المحافظات خلال 2 – 3 أيام عمل.' ),
+	array( 'wallet', 'الدفع عند الاستلام أو CliQ', 'نقداً عند وصول الطلب، أو بتحويل فوري عبر CliQ.' ),
+	array( 'gift', 'توصيل مجاني فوق 35 د.أ', 'التوصيل علينا إذا بلغت قيمة طلبك 35 ديناراً أو أكثر.' ),
+	array( 'swap', 'استبدال خلال 7 أيام', 'للمنتجات غير المفتوحة وبتغليفها الأصلي.' ),
 );
 ?>
-<!-- wp:group {"className":"rs-promises","backgroundColor":"sand","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}}} -->
-<div class="wp-block-group rs-promises has-sand-background-color has-background" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50)">
-<!-- wp:group {"align":"wide","layout":{"type":"grid","minimumColumnWidth":"14rem"}} -->
-<div class="wp-block-group alignwide">
-<?php foreach ( $items as $it ) : ?>
-<!-- wp:group {"className":"rs-promise","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0.25rem"}}} -->
-<div class="wp-block-group rs-promise">
-<!-- wp:heading {"level":3,"fontSize":"md"} -->
-<h3 class="wp-block-heading has-md-font-size"><?php echo esc_html( $it[0] ); ?></h3>
-<!-- /wp:heading -->
-<!-- wp:paragraph {"fontSize":"sm","textColor":"muted"} -->
-<p class="has-muted-color has-text-color has-sm-font-size"><?php echo esc_html( $it[1] ); ?></p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
-<?php endforeach; ?>
-</div>
-<!-- /wp:group -->
-</div>
-<!-- /wp:group -->
+<!-- wp:html -->
+<section class="rs-trust" aria-label="خدمات المتجر">
+	<ul class="rs-trust-list">
+		<?php foreach ( $items as $it ) : ?>
+		<li>
+			<svg viewBox="0 0 24 24" aria-hidden="true"><?php echo $rs_icons[ $it[0] ]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed SVG markup above. ?></svg>
+			<span><strong><?php echo esc_html( $it[1] ); ?></strong><small><?php echo esc_html( $it[2] ); ?></small></span>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+</section>
+<!-- /wp:html -->

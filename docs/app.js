@@ -6,8 +6,6 @@
 	const STORE = { whatsapp: '', cliq: 'ROOMANDSALT', freeOver: 35, shipAmman: 2, shipOther: 3 };
 	const GOVS = ['عمّان', 'إربد', 'الزرقاء', 'البلقاء', 'مادبا', 'جرش', 'عجلون', 'المفرق', 'الكرك', 'الطفيلة', 'معان', 'العقبة'];
 	const TOP_CATS = ['towels', 'robes-slippers', 'bedding', 'mattresses', 'bath-amenities', 'dead-sea'];
-	const CAT_IMG = { towels: 'RS-TW-02', 'robes-slippers': 'RS-RB-01', bedding: 'RS-BD-07', mattresses: 'RS-MT-01', 'bath-amenities': 'RS-AM-01', 'dead-sea': 'RS-DS-01' };
-	const SEA_PICKS = ['RS-DS-01', 'RS-DS-06', 'RS-DS-03', 'RS-DS-21', 'RS-DS-18'];
 	const SRC_NOTE = {
 		supplier: 'صورة المنتج من الشركة المصنّعة Beauty Secrets.',
 		showroom: 'صورة المنتج الفعلي من معرضنا.',
@@ -41,11 +39,6 @@
 
 	/* ---------- Categories + chips ---------- */
 	function renderCats() {
-		$('[data-cats]').innerHTML = TOP_CATS.map((slug) => {
-			const c = catBy[slug];
-			const n = products.filter((p) => inCat(p, slug)).length;
-			return `<a class="cat" href="#shop" data-cat="${slug}"><img src="img/p/${CAT_IMG[slug]}.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat-txt"><span lang="en">${esc(c.en)}</span><b>${esc(c.name)}</b><small>${n} منتجاً</small></span></a>`;
-		}).join('');
 		$('[data-foot-cats]').innerHTML = TOP_CATS.map((s) => `<li><a href="#shop" data-cat="${s}">${esc(catBy[s].name)}</a></li>`).join('');
 		const chipCats = ['all', ...TOP_CATS, 'dead-sea-face', 'dead-sea-body'];
 		$('[data-chips]').innerHTML = chipCats.map((s) => {
@@ -81,8 +74,39 @@
 	}
 	function setFilter(slug) { filter = catBy[slug] || slug === 'all' ? slug : 'all'; query = ''; $('[data-search]').value = ''; renderGrid(); }
 
-	function renderSea() {
-		$('[data-sea]').innerHTML = SEA_PICKS.map((id) => `<button type="button" data-open="${id}" aria-label="${esc(byId[id].name)}"><img src="${byId[id].img}" alt="" loading="lazy" width="900" height="900"></button>`).join('');
+	/* ---------- Home sliders: arrows, page counter, native scroll-snap ---------- */
+	const ARROW = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+	function renderCarousels() {
+		$$('[data-carousel]').forEach((root) => {
+			const cats = root.dataset.carousel.split(',');
+			const list = products.filter((p) => cats.some((c) => inCat(p, c)));
+			root.innerHTML = `<div class="car-nav">
+				<button type="button" class="car-btn" data-dir="-1" aria-label="السابق">${ARROW('M9 6l6 6-6 6')}</button>
+				<span class="car-line"></span><span class="car-count" data-count>1/1</span><span class="car-line"></span>
+				<button type="button" class="car-btn" data-dir="1" aria-label="التالي">${ARROW('M15 6l-6 6 6 6')}</button>
+			</div>
+			<div class="car-track" data-track tabindex="0">${list.map((p) => `<article class="scard">
+				<button class="scard-img" type="button" data-open="${p.id}" aria-label="${esc(p.name)}"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" width="900" height="900"></button>
+				<h3><button type="button" data-open="${p.id}">${esc(p.name)}</button></h3>
+				<p class="scard-price">${p.price !== null ? money(p.price) : 'السعر عند الطلب'}</p>
+				<p class="scard-desc">${esc(p.short)}</p>
+				<button class="btn-line" type="button" data-open="${p.id}">تسوّق الآن</button>
+			</article>`).join('')}</div>`;
+			const track = $('[data-track]', root);
+			const btns = $$('[data-dir]', root);
+			const pages = () => Math.max(1, Math.ceil((track.scrollWidth - 4) / track.clientWidth));
+			const update = () => {
+				const n = pages();
+				const p = Math.min(n, Math.round(Math.abs(track.scrollLeft) / track.clientWidth) + 1);
+				$('[data-count]', root).textContent = `${p}/${n}`;
+				btns[0].disabled = p <= 1; btns[1].disabled = p >= n;
+				root.classList.toggle('is-single', n === 1);
+			};
+			btns.forEach((b) => b.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * Number(b.dataset.dir), behavior: 'smooth' })));
+			track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+			addEventListener('resize', update);
+			update();
+		});
 	}
 
 	/* ---------- Product modal ---------- */
@@ -215,7 +239,7 @@
 
 	/* ---------- Wiring ---------- */
 	function init() {
-		renderCats(); renderGrid(); renderSea(); renderCart();
+		renderCats(); renderGrid(); renderCarousels(); renderCart();
 		$('[data-gov]').innerHTML = '<option value="">اختر المحافظة</option>' + GOVS.map((g) => `<option>${g}</option>`).join('');
 		$$('[data-cliq]').forEach((el) => { el.textContent = STORE.cliq; });
 		$$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });

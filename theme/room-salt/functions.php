@@ -129,6 +129,51 @@ add_shortcode( 'rs_contact', function () {
 	return ob_get_clean();
 } );
 
+/**
+ * Product slider for the home page: [rs_carousel cats="towels,bedding" limit="10"].
+ * Reads products live, so prices, stock and photos follow what the owner sets in WooCommerce.
+ */
+add_shortcode( 'rs_carousel', function ( $atts ) {
+	if ( ! function_exists( 'wc_get_products' ) ) {
+		return '';
+	}
+	$a        = shortcode_atts( array( 'cats' => '', 'limit' => 10, 'label' => '' ), $atts );
+	$products = wc_get_products( array(
+		'status'   => 'publish',
+		'limit'    => min( 24, absint( $a['limit'] ) ),
+		'category' => array_filter( array_map( 'sanitize_title', explode( ',', $a['cats'] ) ) ),
+		'orderby'  => 'menu_order',
+		'order'    => 'ASC',
+	) );
+	if ( ! $products ) {
+		return '';
+	}
+	wp_enqueue_script( 'room-salt-carousel', get_theme_file_uri( 'assets/js/carousel.js' ), array(), RS_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	ob_start();
+	?>
+	<div class="rs-carousel" data-rs-carousel>
+		<div class="rs-car-nav">
+			<button type="button" class="rs-car-btn" data-dir="-1" aria-label="السابق"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+			<span class="rs-car-line"></span><span class="rs-car-count" data-count>1/1</span><span class="rs-car-line"></span>
+			<button type="button" class="rs-car-btn" data-dir="1" aria-label="التالي"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+		</div>
+		<div class="rs-car-track" data-track tabindex="0" aria-label="<?php echo esc_attr( $a['label'] ? $a['label'] : 'منتجات' ); ?>">
+			<?php foreach ( $products as $p ) : ?>
+				<?php $url = get_permalink( $p->get_id() ); ?>
+				<article class="rs-card">
+					<a class="rs-card-img" href="<?php echo esc_url( $url ); ?>" tabindex="-1"><?php echo wp_get_attachment_image( $p->get_image_id(), 'woocommerce_single', false, array( 'loading' => 'lazy', 'alt' => $p->get_name() ) ); ?></a>
+					<h3 class="rs-card-title"><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $p->get_name() ); ?></a></h3>
+					<p class="rs-card-price"><?php echo wp_kses_post( $p->get_price_html() ); ?></p>
+					<p class="rs-card-desc"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $p->get_short_description() ), 16, '…' ) ); ?></p>
+					<a class="rs-btn-line" href="<?php echo esc_url( $url ); ?>">تسوّق الآن</a>
+				</article>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+} );
+
 add_shortcode( 'rs_year', function () {
 	return esc_html( wp_date( 'Y' ) );
 } );

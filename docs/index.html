@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#12343A">
 <meta property="og:title" content="Room & Salt">
 <meta property="og:description" content="غرفة الفندق، وملح البحر الميت، في بيتك.">
-<meta property="og:image" content="img/p/RS-DS-01.jpg">
+<meta property="og:image" content="img/scenes/scene-hero.jpg">
 <link rel="icon" type="image/svg+xml" href="img/icon-square.svg">
 <link rel="apple-touch-icon" href="img/icon-192.png">
 <link rel="stylesheet" href="style.css">
@@ -35,27 +35,59 @@
     </button>
   </div>
 </header>
+<p class="strip">توصيل مجاني لكل طلب قيمته 35 ديناراً أو أكثر</p>
 
 <main>
-<section class="hero">
-  <div class="grain" aria-hidden="true"></div>
-  <div class="wrap hero-in">
-    <div class="hero-copy">
-      <p class="eyebrow light"><span lang="en">THE ROOM · THE SEA</span></p>
-      <h1>غرفة الفندق،<br>وملح البحر الميت،<br><em>في بيتك.</em></h1>
-      <p class="lead">مناشف من القطن المصري، وأرواب ومخدات وفرشات فندقية، ومستحضرات <span lang="en">Beauty Secrets</span> من أملاح البحر الميت وطينه. نوصلها إلى بابك في كل محافظات المملكة.</p>
-      <div class="hero-cta">
-        <a class="btn btn-light" href="#shop" data-cat="all">تسوّق المنتجات</a>
-        <a class="btn btn-ghost" href="#shop" data-cat="dead-sea">منتجات البحر الميت</a>
-      </div>
-      <dl class="hero-facts">
-        <div><dt>44</dt><dd>منتجاً في المعرض</dd></div>
-        <div><dt>12</dt><dd>محافظة نوصل إليها</dd></div>
-        <div><dt><span lang="en">CliQ</span></dt><dd>أو الدفع عند الاستلام</dd></div>
-      </dl>
+<section class="stage stage--hero">
+  <img class="stage-img" src="img/scenes/scene-hero.jpg" alt="مناشف بيضاء من القطن المصري مع منتجات البحر الميت" width="1920" height="1000" fetchpriority="high">
+  <div class="stage-panel">
+    <p class="kicker"><span lang="en">ROOM &amp; SALT</span></p>
+    <h1 class="stage-title">غرفة الفندق، وملح البحر الميت، في بيتك.</h1>
+    <p class="stage-text">مناشف من القطن المصري، وأرواب ومخدات وفرشات فندقية، ومستحضرات من أملاح البحر الميت وطينه، بأسعار معرضنا نفسها.</p>
+    <div class="pill-cta"><span class="pill-price">من 1 د.أ</span><a class="pill-link" href="#shop" data-cat="all">تسوّق الآن</a></div>
+  </div>
+</section>
+
+<section class="trust" aria-label="خدمات المتجر">
+  <ul class="trust-list">
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg><span><strong>توصيل إلى جميع المحافظات</strong><small>عمّان خلال 24 – 48 ساعة، وباقي المحافظات خلال 2 – 3 أيام عمل.</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14.5h2"/></svg><span><strong>الدفع عند الاستلام أو <span lang="en">CliQ</span></strong><small>نقداً عند وصول الطلب، أو بتحويل فوري عبر <span lang="en">CliQ</span>.</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10"/><path d="M3 7h18v3H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/></svg><span><strong>توصيل مجاني فوق 35 د.أ</strong><small>التوصيل علينا إذا بلغت قيمة طلبك 35 ديناراً أو أكثر.</small></span></li>
+    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg><span><strong>استبدال خلال 7 أيام</strong><small>للمنتجات غير المفتوحة وبتغليفها الأصلي.</small></span></li>
+  </ul>
+</section>
+
+<section class="split">
+  <span class="blob blob--a" aria-hidden="true"></span>
+  <div class="split-in">
+    <figure class="split-media"><img src="img/scenes/scene-towels.jpg" alt="منشفتان ملفوفتان من القطن المصري مع صابون البحر الميت" width="1100" height="1100" loading="lazy"></figure>
+    <div class="split-body">
+      <p class="kicker"><span lang="en">HOTEL LINEN</span></p>
+      <h2 class="split-title">مناشف الفنادق ومفارشها، في بيتك</h2>
+      <p class="split-text">منشفة الحمام من القطن المصري بكثافة 600 غرام للمتر المربع، والروب الأبيض، ومخدات <span lang="en">Rest One</span>، وواقيات الفرشات، بالمقاسات المستخدمة في الفنادق.</p>
+      <div class="carousel" data-carousel="towels,robes-slippers,bedding,bath-amenities" aria-label="المناشف والمفارش"></div>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <svg viewBox="0 0 400 480">
+  </div>
+</section>
+
+
+<section class="stage stage--banner">
+  <img class="stage-img" src="img/scenes/scene-sea-wide.jpg" alt="أملاح البحر الميت وشامبو الطين وماسكات الطين من Beauty Secrets" width="1920" height="900" loading="lazy">
+  <div class="stage-panel">
+    <p class="kicker"><span lang="en">−430 M · THE DEAD SEA</span></p>
+    <h2 class="stage-title">من أخفض نقطة على الأرض</h2>
+    <p class="stage-text">أملاح البحر الميت وطينه، وصابون الطين الأسود، وكريمات الوجه والجسم، من صنع <span lang="en">Beauty Secrets</span> في الأردن.</p>
+    <div class="btn-row">
+      <a class="btn-solid" href="#shop" data-cat="dead-sea-face">العناية بالوجه</a>
+      <a class="btn-line" href="#shop" data-cat="dead-sea-body">الجسم والاستحمام</a>
+    </div>
+  </div>
+</section>
+
+<section class="split split--flip">
+  <span class="blob blob--b" aria-hidden="true"></span>
+  <div class="split-in">
+    <figure class="split-media split-media--arch" aria-hidden="true"><svg viewBox="0 0 400 480">
         <defs>
           <clipPath id="arch"><path d="M22 480V200A178 178 0 0 1 378 200V480Z"/></clipPath>
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F1DDC3"/><stop offset="1" stop-color="#F7EEE2"/></linearGradient>
@@ -73,26 +105,25 @@
           <path d="M30 430 l10 -8 l10 8 z M120 436 l7 -6 l7 6 z M300 428 l9 -7 l9 7 z M230 442 l6 -5 l6 5z" fill="#E4ECE9"/>
           <path class="crystal" d="M200 382 L213 395 L200 408 L187 395Z" fill="#F7F4EE"/>
         </g>
-      </svg>
-      <div class="hero-tag" lang="en"><span>THE DEAD SEA</span>−430 m</div>
+      </svg></figure>
+    <div class="split-body">
+      <p class="kicker"><span lang="en">FACE &amp; BODY</span></p>
+      <h2 class="split-title">عناية البحر الميت</h2>
+      <p class="split-text">27 منتجاً من <span lang="en">Beauty Secrets</span>: كريمات الوجه، وماسكات الطين، والصابون، والأملاح، بأسعار من 3 إلى 7 دنانير.</p>
+      <div class="carousel" data-carousel="dead-sea" aria-label="منتجات البحر الميت"></div>
     </div>
   </div>
 </section>
 
-<section class="brands" aria-label="العلامات التي نبيعها">
-  <div class="marquee"><div class="marquee-in">
-    <span lang="en">Beauty Secrets</span><i>◆</i><span lang="en">Rest One</span><i>◆</i><span>قطن مصري</span><i>◆</i><span lang="en">Astoria</span><i>◆</i><span>صناعة أردنية</span><i>◆</i>
-    <span lang="en">Beauty Secrets</span><i>◆</i><span lang="en">Rest One</span><i>◆</i><span>قطن مصري</span><i>◆</i><span lang="en">Astoria</span><i>◆</i><span>صناعة أردنية</span><i>◆</i>
-  </div></div>
-</section>
-
-<section class="section cats-sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><p class="eyebrow"><span lang="en">COLLECTIONS</span></p><h2>تسوّق حسب القسم</h2></div>
-      <a class="link-arrow" href="#shop" data-cat="all">جميع المنتجات</a>
+<section class="editorial">
+  <div class="split-in">
+    <div class="split-body">
+      <p class="kicker"><span lang="en">FROM OUR SHOWROOM</span></p>
+      <h2 class="split-title">ما تراه في معرضنا، يصلك إلى البيت</h2>
+      <p class="split-text">كل منتج في المتجر معروض في معرضنا، بالاسم والمقاس والسعر المكتوب على بطاقته. وإذا أردت صوراً إضافية لأي منتج قبل الطلب، نرسلها لك عبر واتساب.</p>
+      <a class="text-link" href="#" data-wa>راسلنا عبر واتساب</a>
     </div>
-    <div class="cats" data-cats></div>
+    <figure class="editorial-media"><img src="img/scenes/scene-still.jpg" alt="منتجات Room &amp; Salt" width="900" height="738" loading="lazy"></figure>
   </div>
 </section>
 
@@ -105,22 +136,6 @@
     <div class="chips" role="tablist" data-chips></div>
     <div class="grid" data-grid></div>
     <p class="empty" data-empty hidden>لا توجد منتجات مطابقة.</p>
-  </div>
-</section>
-
-<section class="sea">
-  <div class="grain" aria-hidden="true"></div>
-  <div class="wrap sea-in">
-    <div class="sea-copy">
-      <p class="eyebrow light"><span lang="en">−430 M · BEAUTY SECRETS</span></p>
-      <h2>من أخفض نقطة على الأرض</h2>
-      <p>مستحضرات <span lang="en">Beauty Secrets</span> المصنوعة في الأردن من أملاح البحر الميت وطينه: كريمات الوجه والجسم، وماسكات الطين، وصابون الطين الأسود، وأملاح الحمام. بأسعار تبدأ من 3 دنانير.</p>
-      <div class="hero-cta">
-        <a class="btn btn-light" href="#shop" data-cat="dead-sea-face">العناية بالوجه</a>
-        <a class="btn btn-ghost" href="#shop" data-cat="dead-sea-body">الجسم والاستحمام</a>
-      </div>
-    </div>
-    <div class="sea-grid" data-sea></div>
   </div>
 </section>
 

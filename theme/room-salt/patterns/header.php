@@ -27,6 +27,7 @@
 <!-- wp:navigation-link {"label":"المتجر","url":"<?php echo esc_url( rs_link( 'shop' ) ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"المناشف","url":"<?php echo esc_url( rs_link( 'cat:towels' ) ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"المخدات والمفارش","url":"<?php echo esc_url( rs_link( 'cat:bedding' ) ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"الفرشات","url":"<?php echo esc_url( rs_link( 'cat:mattresses' ) ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"البحر الميت","url":"<?php echo esc_url( rs_link( 'cat:dead-sea' ) ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"التوصيل","url":"<?php echo esc_url( rs_link( 'delivery-returns' ) ); ?>","kind":"custom"} /-->
 <!-- /wp:navigation -->
@@ -41,3 +42,7 @@
 <!-- /wp:group -->
 </div>
 <!-- /wp:group -->
+
+<!-- wp:paragraph {"align":"center","className":"rs-strip"} -->
+<p class="has-text-align-center rs-strip">توصيل مجاني لكل طلب قيمته 35 ديناراً أو أكثر</p>
+<!-- /wp:paragraph -->

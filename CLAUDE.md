@@ -92,6 +92,14 @@ Testing in Playground: SQLite can't run WooCommerce's stock-reservation SQL; the
 from `woocommerce_order_hold_stock_minutes`. Not needed on MySQL hosting. Playground auto-login resets the login counter
 between HTTP requests; the lockout was verified inside one request.
 
+## Home page layout (boutique style)
+
+Front page order: hero (full-bleed scene + curved panel, price pill) → trust row → `linen` (towels split + slider) →
+`dead-sea` (wide banner) → `sea-care` (arch art + Dead Sea slider) → `showroom` (round image) → how-to-order → FAQ.
+Sliders: `[rs_carousel cats="…" limit=""]` in functions.php, live WooCommerce data, `assets/js/carousel.js` (RTL-aware).
+Scenes in `assets/scenes/` are built by `tools/room-salt/scene.py` from real product cut-outs (no stock or AI photos).
+The docs/ demo mirrors the same sections. Layout inspired by hotel-boutique stores; no third-party brand assets or copy.
+
 ## Product copy
 
 `tools/room-salt/copy_catalog.py` holds the edited copy (MSA). Dead Sea effects are attributed to the manufacturer
