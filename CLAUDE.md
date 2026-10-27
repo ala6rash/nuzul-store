@@ -1,178 +1,100 @@
-# Nuzul (نُزُل) — project guide for Claude Code
+# Room & Salt — project guide for Claude Code
 
 ## What this is
 
-**Nuzul** is a B2C online store in Jordan selling hotel-room amenities to individuals for use at home:
-towels, bathrobes, slippers, toiletry sets, bathroom accessories, room/pillow sprays, and ready-made gift boxes.
+**Room & Salt** is a B2C online store in Jordan selling, to individuals, the hotel-room items and Dead Sea
+products shown in a hotel-lobby showroom: Egyptian-cotton towels, bathrobes, slippers, pillows, pillowcases,
+mattress protectors, fitted sheet sets, mattresses, bath amenities, and 27 Dead Sea cosmetics.
 The owner is Ahmad Al-Atrash's manager. Ahmad (repo owner, `ala6rash`) builds and maintains it.
 
-- Tagline: **«رفاهية الفندق، في منزلك.»**
-- Business model: retail (B2C). Not B2B. Customers buy themselves.
-- Payment: **cash on delivery only** (no card gateway).
-- Shipping: Amman 2 JOD, other governorates 3 JOD, free on orders ≥ 35 JOD. Jordan only.
-- Returns: 7 days, unopened items; personal-care items not returnable once opened.
+- Tagline: **«غرفة الفندق، وملح البحر الميت، في بيتك.»**
+- Renamed from **Nuzul (نُزُل)**: that name is a registered Jordanian trademark (2007, hotel services, another
+  owner). Room & Salt still needs an official search at the Ministry of Industry and Trade.
+- Business model: retail (B2C). Not B2B.
+- Payment: **cash on delivery + CliQ instant transfer** now (CliQ = WooCommerce BACS gateway relabelled).
+  Owner wants card payments: add a Jordanian gateway (HyperPay / PayTabs / bank) after merchant approval.
+  Stripe does not support Jordanian businesses.
+- Shipping (placeholders, confirm with owner): Amman 2 JOD, other governorates 3 JOD, free ≥ 35 JOD.
+  Aramex's public Amman→Amman 1 kg rate was 4.00 JOD (Oct 2026). Mattresses need their own delivery price.
+- Returns (placeholder): 7 days, unopened; personal-care and Dead Sea items not returnable once opened.
 
-Stack: **WordPress 6.6+ (block theme) + WooCommerce**. Everything is free/open-source; the only paid
-items are hosting + domain (not bought yet).
-
-## Live links
-
-| | |
-|---|---|
-| Static preview (GitHub Pages) | https://ala6rash.github.io/nuzul-store/ |
-| Brand book + launch guide | https://ala6rash.github.io/nuzul-store/brand/ |
-| Repo | https://github.com/ala6rash/nuzul-store |
-
-GitHub Pages serves `docs/` from `main`. It is a **static export** of a local WordPress install with a
-**browser-side cart** (`tools/static-cart/`): add to cart → checkout page (`/order/`) → the full order
-(order number, items, governorate shipping, total, COD/CliQ, customer details) opens as a WhatsApp message
-to the store number. No server, no card payments.
-
-**Hosting decision (owner wants minimum spend):**
-1. Now — 0 JOD: WhatsApp Business + Instagram; this static store as the order form.
-2. If a branded link is wanted — ~7.5 JOD/yr: domain via Cloudflare Registrar (at cost) + **Cloudflare Pages**
-   (free) connected to this repo, output dir `docs`. Cloudflare's terms allow business sites on free plans but
-   forbid collecting card data on them (we don't).
-3. When orders are regular — Hostinger (Premium $47.88 / Unlimited $59.88 for 12 months, ex-VAT) with the
-   real WooCommerce theme from `theme/nuzul`.
-
-**GitHub Pages must NOT be used to run the live store**: GitHub's docs prohibit using Pages "to run your online
-business, e-commerce site". It's fine as a design preview only. Move to Cloudflare Pages before real selling.
+Stack: **WordPress 6.6+ (block theme) + WooCommerce**. Hosting + domain not bought yet
+(Hostinger Premium $47.88 / Unlimited $59.88 for 12 months ex-VAT, Oct 2026; renewals cost more).
 
 ## Repo map
 
 ```
-theme/nuzul/              The WordPress block theme (the actual product)
-  style.css               Theme header + all custom CSS (header, hero, door hanger, grids, Woo tweaks)
-  theme.json              Design tokens: palette, fonts (self-hosted woff2), sizes, spacing, element styles
-  functions.php           Theme setup, WhatsApp float + product button, Jordan checkout tweaks,
-                          governorates (woocommerce_states), JOD symbol "د.أ", helper fns
-  inc/catalog.php         6 categories + 19 starter products (Arabic copy, suggested JOD prices)
-  inc/setup.php           Admin page Appearance → "إعداد متجر نُزُل": one-click store setup (idempotent)
-  patterns/*.php          Header, footer, and home sections (hero, promises, categories, featured,
-                          gift-band, how-to-order, faq). PHP patterns so URLs are dynamic.
-  templates/, parts/      Block templates; parts just include the header/footer patterns
-  assets/fonts            readex-pro.woff2, reem-kufi.woff2, marcellus.woff2
-  assets/img              Logos (SVG)
-  assets/products         Placeholder product illustrations (PNG, 800×800)
-brand/                    Logo SVG/PNG, product illustrations SVG/PNG (source + renders)
-docs/                     GENERATED static site for GitHub Pages (+ docs/brand/ = brand book). Don't hand-edit.
-download/                 nuzul-theme.zip, nuzul-brand-kit.zip (rebuild after theme changes)
-tools/
-  local-wp.sh             Local WordPress + WooCommerce on SQLite with the theme symlinked; serves :8080
-  build_demo.sh           wget-mirrors the local site + Store API product JSON → make_demo.py → static site
-  make_demo.py            Post-processes the mirror (strips WP JS, relative URLs, Arabic strings), injects the
-                          static cart, builds /order/ from the contact page. NUZUL_WHATSAPP=962XXXXXXXXX
-                          bakes in the store number (empty = wa.me share picker + "number not set" note)
-  static-cart/            nuzul-cart.js / .css — localStorage cart, drawer, checkout, WhatsApp order message.
-                          Shipping + governorates are set in make_demo.py (SHIPPING, GOVERNORATES); keep them
-                          in sync with inc/setup.php
-  make_logo.py            Generates logo SVGs with text outlined (needs TTF fonts + uharfbuzz)
-  make_products.py        Generates the placeholder product illustrations (SVG)
-  render_svgs.js          Renders SVG → PNG with Playwright
+theme/room-salt/          The current WordPress block theme (the product)
+  inc/catalog.json        SINGLE SOURCE of categories + products: names, sizes, prices (from showroom
+                          price cards), art type, real-photo flag. price null = "السعر عند الطلب".
+  inc/catalog.php         Loads catalog.json
+  inc/setup.php           Appearance → إعداد المتجر: one-click setup (JOD, COD, CliQ, zones, categories,
+                          44 products with images + real photo gallery, pages incl. terms/privacy). Idempotent.
+  functions.php           WhatsApp float + product button, price-on-request, Arabic button labels,
+                          illustration note, Jordan checkout + governorates, "د.أ"
+  patterns/               header, hero (arch + Dead Sea SVG), promises, categories, featured, dead-sea,
+                          how-to-order, faq, footer
+  assets/fonts            Noto Naskh Arabic, IBM Plex Sans Arabic (300–600), Bodoni Moda (+italic) — OFL
+  assets/img              Logos (text outlined SVG) + PNG icons
+  assets/art              Product + category illustrations (900×900 JPG, generated)
+  assets/real             Real showroom photos (second gallery image, 11 products)
+brand/room-salt/          Logos, product art, screenshots
+tools/room-salt/          brand.py (logo), art.py + split.py (illustrations via headless Edge), real.py
+                          (showroom photos), towoff2.py (fonts), run-local.sh + playground-blueprint.json
+download/                 room-salt-theme.zip, room-salt-brand-kit.zip (rebuild after theme changes)
+theme/nuzul/, docs/, brand/ (old files), tools/*.py|sh   Previous Nuzul version, kept for reference.
 ```
 
-## Brand identity (keep consistent)
+`docs/` (GitHub Pages) still shows the old Nuzul static demo. GitHub's terms forbid running a store on Pages;
+it is a preview only.
 
-Concept: hotel details at home. Logo = **hotel room key fob on a brass ring with the letter ن engraved**.
-Recurring motifs: "Do Not Disturb" door hanger (hero), brass room-number plaque ("ROOM 214"),
-category numbers "No. 101–106", section eyebrows = hotel word in Latin + Arabic meaning:
-`ROOM SERVICE · خدمة الغرف`, `FLOORS · الأقسام`, `MOST REQUESTED · مختارات`, `LATE CHECKOUT · هدية جاهزة`,
-`CHECK-IN · خطوات الطلب`, `CONCIERGE · الأسئلة الشائعة`.
+## Brand identity
+
+Concept: the hotel room (arch doorway) + the Dead Sea (water, salt crystal, Moab mountains).
+Logo mark = arch with mineral water and a floating terracotta salt crystal; wordmark "ROOM & SALT" in
+Bodoni Moda, ampersand italic in Moab.
 
 | Token | Hex | Use |
 |---|---|---|
-| linen | `#F5F6F3` | page background |
-| porcelain | `#E4EAE6` | bands, image backgrounds |
-| eucalyptus | `#1E4640` | primary: buttons, top bar, logo |
-| ink | `#142321` | text, footer |
-| brass | `#B3894A` | decoration only (ring, rules) — fails contrast for small text |
-| brass-deep | `#86622B` | small brass-coloured text |
+| salt | `#F7F4EE` | page background |
+| sand | `#ECE5D9` | bands, linen image backgrounds |
+| mist | `#E4ECE9` | Dead Sea image backgrounds |
+| deep | `#12343A` | primary: buttons, headings, top bar |
+| mineral | `#2D7A78` | accent, WhatsApp buttons |
+| moab | `#B4613A` | decoration, eyebrows rules |
+| moab-deep | `#8E4A2A` | small terracotta text |
+| ink | `#0F1B1E` | body text, footer |
 
-Fonts (Google Fonts, OFL, self-hosted in the theme): **Reem Kufi** (h1/h2 only), **Readex Pro** (body, h3,
-prices, buttons), **Marcellus** (Latin plaque labels only).
+Arabic typography rules: never letter-spacing on Arabic; line-height ≥ 1.3 headings / ≥ 1.5 body; Latin
+accents wrapped in `<span lang="en" dir="ltr">` (only those get tracking).
 
-## Copy rules (important — the owner asked for this explicitly)
+## Copy rules (owner asked explicitly)
 
-- All customer-facing text is **Modern Standard Arabic, professional tone** (not Jordanian dialect).
-- **Only accurate, verifiable statements.** No "same suppliers as hotels", no "lasts for hours", no
-  superlatives. Product descriptions = specs (gsm, cotton %, ml, sizes, piece counts).
-- **Never add fake reviews, testimonials, ratings or customer counts.** Reviews are disabled.
-- The **"من نحن" (About) page is intentionally empty** (`nuzul_page_about()` returns `''`). Leave it empty
-  until the owner provides text.
-- Prices in `inc/catalog.php` are **suggestions**; the owner sets real prices.
+- Customer-facing text in **Modern Standard Arabic**, professional tone (not dialect).
+- **Only accurate statements**: names/sizes/prices come from the showroom cards. No invented specs.
+- **No fake reviews, ratings or customer counts.** Reviews disabled.
+- **About page stays empty** (`rs_page_about()` returns `''`) until the owner provides text.
+- Terms and privacy pages are drafts — must be reviewed by a lawyer before launch.
+- Supplier certificate (Beauty Secret GMP) shown in photos **expired Jan 2024** — do not display it.
 
-## Open items / placeholders
+## Open items
 
-- **WhatsApp number is not set.** Theme default `962790000000` is a placeholder. The real number is entered
-  on the setup page or Settings → General (`nuzul_whatsapp`, international format, digits only).
-  In the static preview, `make_demo.py` strips the number (`wa.me/` with no number) and shows `07X XXX XXXX`
-  — so no real person gets messaged. Once the owner gives the real number, set it locally, rebuild the demo,
-  and remove that stripping.
-- Instagram handle `nuzul.jo` and email are placeholders.
-- Product images are illustrations; replace with real square photos (same filenames or via WooCommerce).
-- Name/trademark availability (Jordan trade registry, domain, Instagram) not checked yet.
-- Hosting + domain not purchased (decision: start free, see "Hosting decision" above).
-- Shipping fee charged (Amman 2 / other 3 JOD) is below Aramex's public Amman→Amman 1 kg rate (4.00 JOD,
-  checked Oct 2026) — owner must decide courier/price.
-
-## How the theme works
-
-- `functions.php`
-  - `nuzul_opt()`, `nuzul_wa_number()`, `nuzul_wa_url($text)`: contact settings.
-  - Floating WhatsApp button (`wp_footer`, hidden on cart/checkout); "أو اطلب عبر واتساب" appended to the
-    product add-to-cart block via `render_block_woocommerce/add-to-cart-form`.
-  - `woocommerce_states` adds Jordan's 12 governorates (Woo ships none) → used by shipping zones.
-  - `woocommerce_get_country_locale` (JO): postcode/company hidden, state = "المحافظة" required.
-  - `hooked_block_types`: stops Woo auto-inserting a second account/cart icon next to the nav.
-  - `nuzul_link()` builds URLs (shop / `cat:slug` / page slug) so patterns survive sub-folder installs.
-- `inc/setup.php` → `nuzul_run_setup()`: JOD currency, Jordan-only selling, COD on (Arabic texts),
-  phone required, reviews off, shipping zones (Amman / other governorates, flat + free ≥ 35),
-  categories with images, products (slug = image key, English slugs share better on WhatsApp),
-  pages (delivery-returns, about [empty], contact), pretty permalinks. Skips anything that already exists.
-- Home page = `templates/front-page.html` → patterns. Featured products use the `[products visibility="featured"]`
-  shortcode rendered via `do_shortcode` inside the pattern.
-- Shop/category/product pages use WooCommerce's own block templates + our header/footer + CSS.
+- WhatsApp number, CliQ alias, Instagram, email: placeholders (set on the setup page).
+- Prices missing: slippers, plain pillowcase, fitted sheet set. "burberry" mask on the price list read as berry — confirm.
+- Product photos: illustrations now; get supplier photos (Rest One, Astoria, Beauty Secret) or shoot on white.
+- Card gateway: needs commercial registration, company bank account, live https site, policy pages.
 
 ## Common tasks
 
 ```bash
-# Run a local store (first run installs everything into .local-wp/, gitignored)
-tools/local-wp.sh            # http://localhost:8080, admin/admin
-tools/local-wp.sh serve      # restart server later
-
-# Lint PHP after edits
-for f in theme/nuzul/functions.php theme/nuzul/inc/*.php theme/nuzul/patterns/*.php; do php -l "$f"; done
-
-# Changed catalog/pages copy? setup skips existing items, so delete then re-run:
-W="php .local-wp/wp-cli.phar --allow-root --path=.local-wp/site"
-$W post delete $($W post list --post_type=product --format=ids) --force
-$W eval 'nuzul_run_setup(["whatsapp"=>"","instagram"=>"","email"=>"","products"=>true]);'
-
-# Rebuild the static store (local site must be running)
-NUZUL_WHATSAPP=962XXXXXXXXX tools/build_demo.sh http://localhost:8080/ /tmp/nuzul-demo
-rm -rf docs && mv /tmp/nuzul-demo.new docs && touch docs/.nojekyll
-#   then restore docs/brand/index.html and docs/preview.png from git if needed:
-git checkout HEAD -- docs/brand docs/preview.png
-
-# Rebuild downloadable zips
-(cd theme && zip -qr ../download/nuzul-theme.zip nuzul)
+bash tools/room-salt/run-local.sh      # local store at http://127.0.0.1:9400 (fresh each run)
+for f in theme/room-salt/functions.php theme/room-salt/inc/*.php theme/room-salt/patterns/*.php; do php -l "$f"; done
+python tools/room-salt/zipdir.py theme/room-salt download/room-salt-theme.zip room-salt   # rebuild theme zip
 ```
 
-Before committing UI changes: check the home, shop, a product, cart and checkout at **390px and 1366px**
-width, and make sure nothing overflows horizontally (RTL layouts overflow to the left/right easily —
-e.g. absolutely positioned hero elements, fixed-width images).
-
-## Deploying the real store (for when hosting is bought)
-
-1. Hosting with WooCommerce support + domain.
-2. Install WordPress, Settings → General → Site language: العربية.
-3. Install + activate WooCommerce (skip its onboarding wizard).
-4. Appearance → Themes → Upload `download/nuzul-theme.zip` → Activate.
-5. Appearance → **إعداد متجر نُزُل** → enter WhatsApp number → "جهّز المتجر".
-6. Set real prices and photos; place a test order from a phone; cancel it.
+On Git Bash, Playground mounts need `MSYS_NO_PATHCONV=1` (otherwise `/wordpress/...` becomes a Windows path).
+Check pages at ~390px and 1366px; headless Edge can't go below ~496px viewport.
 
 ## Git
 
-- Default branch `main`; Pages builds from `main:/docs` automatically on push.
-- Commit messages in English, imperative.
+- Default branch `main`; Pages builds from `main:/docs`. Commit messages in English, imperative.
