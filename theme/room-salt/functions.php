@@ -185,6 +185,9 @@ add_filter( 'woocommerce_product_add_to_cart_text', function ( $text, $product )
 add_filter( 'woocommerce_product_single_add_to_cart_text', function () {
 	return 'أضف إلى السلة';
 } );
+add_filter( 'woocommerce_product_add_to_cart_description', function ( $text, $product ) {
+	return sprintf( 'أضف «%s» إلى السلة', $product->get_name() );
+}, 10, 2 );
 
 /** Illustration note under the gallery: the first image is a drawing, the real photo follows. */
 add_filter( 'render_block_woocommerce/product-image-gallery', function ( $html ) {
