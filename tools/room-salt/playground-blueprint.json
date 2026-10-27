@@ -1,0 +1,14 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "features": { "networking": true },
+  "login": true,
+  "steps": [
+    { "step": "setSiteLanguage", "language": "ar" },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" }, "options": { "activate": true } },
+    { "step": "activateTheme", "themeFolderName": "room-salt" },
+    { "step": "setSiteOptions", "options": { "blogname": "Room & Salt", "blogdescription": "مستلزمات الفنادق ومنتجات البحر الميت", "permalink_structure": "/%postname%/" } },
+    { "step": "runPHP", "code": "<?php require_once '/wordpress/wp-load.php'; $log = rs_run_setup( array( 'whatsapp' => '', 'instagram' => '', 'email' => '', 'products' => true ) ); file_put_contents( '/wordpress/rs-setup.log', implode( \"\n\", $log ) );" }
+  ]
+}
