@@ -37,9 +37,13 @@ function rs_setup_page() {
 			'email'     => sanitize_email( wp_unslash( $_POST['email'] ?? '' ) ),
 			'cliq'      => sanitize_text_field( wp_unslash( $_POST['cliq'] ?? '' ) ),
 			'products'  => ! empty( $_POST['products'] ),
+			'sync'      => ! empty( $_POST['sync'] ),
+			'stock'     => '' === ( $_POST['stock'] ?? '' ) ? null : absint( wp_unslash( $_POST['stock'] ) ),
+			'staff'     => sanitize_email( wp_unslash( $_POST['staff'] ?? '' ) ),
 		) );
 	}
 	$wc = class_exists( 'WooCommerce' );
+	$hp = rs_card_plugin_state();
 	?>
 	<div class="wrap" dir="rtl">
 		<h1>إعداد متجر Room & Salt</h1>
@@ -57,7 +61,9 @@ function rs_setup_page() {
 			<li>تفعيل <strong>الدفع عند الاستلام</strong> و<strong>التحويل الفوري عبر CliQ</strong>.</li>
 			<li>مناطق الشحن: عمّان 2 د.أ، وباقي المحافظات 3 د.أ، ومجاني للطلبات فوق 35 د.أ (عدّلها من إعدادات WooCommerce).</li>
 			<li>إضافة الأقسام و<?php echo count( rs_catalog_products() ); ?> منتجاً بأسعار المعرض.</li>
-			<li>إنشاء صفحات: التوصيل والاستبدال، من نحن، تواصل معنا.</li>
+			<li>إنشاء صفحات: التوصيل والاستبدال، من نحن، تواصل معنا، الشروط والأحكام، سياسة الخصوصية.</li>
+			<li>تفعيل تتبّع المخزون، وتنبيهك بالبريد عند قرب نفاد أي منتج.</li>
+			<li>رسائل البريد للطلبات بالعربية وبألوان المتجر، ونسخة من كل طلب جديد إلى بريد المتجر.</li>
 		</ol>
 		<form method="post">
 			<?php wp_nonce_field( 'rs_setup' ); ?>
@@ -71,10 +77,32 @@ function rs_setup_page() {
 				<tr><th><label for="cliq">الاسم المستعار لـ CliQ</label></th>
 					<td><input id="cliq" name="cliq" class="regular-text" dir="ltr" placeholder="ROOMANDSALT" value="<?php echo esc_attr( get_option( 'rs_cliq_alias', '' ) ); ?>"><p class="description">الاسم المستعار المسجّل في البنك لاستقبال التحويلات الفورية.</p></td></tr>
 				<tr><th>المنتجات</th>
-					<td><label><input type="checkbox" name="products" value="1" checked> أضف منتجات المعرض (يمكن تعديل الأسعار والصور لاحقاً)</label></td></tr>
+					<td><label><input type="checkbox" name="products" value="1" checked> أضف منتجات المعرض (يمكن تعديل الأسعار والصور لاحقاً)</label><br>
+						<label><input type="checkbox" name="sync" value="1"> حدّث أسماء المنتجات الموجودة وأوصافها وروابطها وترتيبها من القالب (لا يغيّر الأسعار ولا الصور ولا المخزون)</label></td></tr>
+					<tr><th><label for="stock">الكمية الافتتاحية</label></th>
+						<td><input id="stock" name="stock" type="number" min="0" class="small-text" dir="ltr" value=""><p class="description">اختياري. إذا كتبت رقماً، يُعطى كل منتج له سعر هذه الكمية، وينقص المخزون مع كل طلب ويظهر المنتج «نفد من المخزون» عند الصفر. اتركه فارغاً لتُدخل الكميات لكل منتج بنفسك.</p></td></tr>
+					<tr><th><label for="staff">بريد الموظف</label></th>
+						<td><input id="staff" name="staff" type="email" class="regular-text" dir="ltr" value=""><p class="description">اختياري. يُنشأ له حساب «مدير متجر»: يرى الطلبات والمنتجات والعملاء ويعدّلها، ولا يستطيع تغيير القالب أو الإضافات أو المستخدمين. يصله بريد لاختيار كلمة المرور.</p></td></tr>
 			</table>
 			<?php submit_button( 'جهّز المتجر', 'primary', 'rs_run_setup', true, $wc ? array() : array( 'disabled' => 'disabled' ) ); ?>
 		</form>
+
+		<h2>الدفع بالبطاقة</h2>
+		<p>يتطلب حساب تاجر معتمداً من شركة دفع أردنية. بعد الموافقة تحصل منها على مفاتيح الربط (Entity ID وAccess Token أو ما يماثلها).</p>
+		<ol>
+			<li><strong>HyperPay:</strong> إضافتها الرسمية «HyperPay Payments» موجودة في مكتبة ووردبريس.
+				<?php if ( 'active' === $hp ) : ?>
+					<strong style="color:#2D7A78">مثبّتة ومفعّلة.</strong> <a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); ?>">أدخل المفاتيح من إعدادات الدفع</a>.
+				<?php elseif ( 'installed' === $hp ) : ?>
+					مثبّتة وغير مفعّلة. <a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>">فعّلها من صفحة الإضافات</a>.
+				<?php else : ?>
+					<a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=hyperpay-gateways&tab=search&type=term' ) ); ?>">ثبّتها من هنا</a>.
+				<?php endif; ?>
+			</li>
+			<li><strong>PayTabs:</strong> ترسل الشركة إضافة WooCommerce الخاصة بها للتاجر بعد فتح الحساب. ارفعها من الإضافات ← أضف جديد ← رفع إضافة.</li>
+			<li>بعد إدخال المفاتيح، جرّب الدفع في «وضع الاختبار» ببطاقة اختبار من الشركة، ثم حوّل إلى الوضع الفعلي.</li>
+		</ol>
+		<p>القالب لا يحتاج أي تعديل: تظهر البطاقة تلقائياً في صفحة إتمام الطلب بجانب الدفع عند الاستلام وCliQ.</p>
 	</div>
 	<?php
 }
@@ -102,7 +130,7 @@ function rs_import_image( $rel, $title ) {
 }
 
 function rs_product_description( $p ) {
-	$html = '<p>' . esc_html( $p['short'] ) . '</p>';
+	$html = '<p>' . esc_html( ! empty( $p['desc'] ) ? $p['desc'] : $p['short'] ) . '</p>';
 	if ( ! empty( $p['specs'] ) ) {
 		$html .= '<ul>';
 		foreach ( $p['specs'] as $s ) {
@@ -115,7 +143,8 @@ function rs_product_description( $p ) {
 }
 
 function rs_run_setup( $args ) {
-	$log = array();
+	$args = wp_parse_args( $args, array( 'whatsapp' => '', 'instagram' => '', 'email' => '', 'cliq' => '', 'products' => true, 'sync' => false, 'stock' => null, 'staff' => '' ) );
+	$log  = array();
 
 	foreach ( array( 'whatsapp' => 'rs_whatsapp', 'instagram' => 'rs_instagram', 'email' => 'rs_email' ) as $k => $opt ) {
 		if ( '' !== $args[ $k ] ) {
@@ -239,8 +268,12 @@ function rs_run_setup( $args ) {
 			$tid = $term->term_id;
 		}
 		$cat_ids[ $slug ] = $tid;
-		if ( ! get_term_meta( $tid, 'thumbnail_id', true ) ) {
-			update_term_meta( $tid, 'thumbnail_id', rs_import_image( "art/cat-{$slug}.jpg", $c['name'] ) );
+		// A real product photo represents each category; the drawing only if that photo is missing.
+		$thumb = (int) get_term_meta( $tid, 'thumbnail_id', true );
+		if ( ! $thumb || 0 === strpos( (string) get_post_meta( $thumb, '_rs_asset', true ), 'art/' ) ) {
+			$sku = rs_category_photo_sku( $slug );
+			$rel = $sku && file_exists( get_theme_file_path( "assets/photos/{$sku}.jpg" ) ) ? "photos/{$sku}.jpg" : "art/cat-{$slug}.jpg";
+			update_term_meta( $tid, 'thumbnail_id', rs_import_image( $rel, $c['name'] ) );
 		}
 	}
 	$log[] = 'تم إنشاء ' . count( $cat_ids ) . ' أقسام.';
@@ -248,7 +281,7 @@ function rs_run_setup( $args ) {
 	if ( $args['products'] ) {
 		$made = 0;
 		$ask  = 0;
-		foreach ( rs_catalog_products() as $p ) {
+		foreach ( array_values( rs_catalog_products() ) as $order => $p ) {
 			if ( wc_get_product_id_by_sku( $p['sku'] ) ) {
 				continue;
 			}
@@ -259,6 +292,7 @@ function rs_run_setup( $args ) {
 			}
 			$prod = new WC_Product_Simple();
 			$prod->set_name( $p['name'] );
+			$prod->set_slug( sanitize_title( $p['en'] ) );
 			$prod->set_sku( $p['sku'] );
 			if ( null !== $p['price'] ) {
 				$prod->set_regular_price( $p['price'] );
@@ -269,6 +303,7 @@ function rs_run_setup( $args ) {
 			$prod->set_description( rs_product_description( $p ) );
 			$prod->set_status( 'publish' );
 			$prod->set_featured( ! empty( $p['featured'] ) );
+			$prod->set_menu_order( $order ); // Shop lists products in catalog order: towels first, Dead Sea last.
 			$prod->set_stock_status( 'instock' );
 			$prod->set_category_ids( array_filter( $cats ) );
 			// Real photo first (manufacturer or showroom); the drawing only where no photo exists yet.
@@ -285,6 +320,12 @@ function rs_run_setup( $args ) {
 		}
 		$log[] = "تمت إضافة {$made} منتجاً. منها {$ask} بدون سعر مؤكد وتظهر «السعر عند الطلب».";
 	}
+
+	if ( $args['sync'] ) {
+		$log[] = sprintf( 'تم تحديث أسماء %d منتجاً وأوصافها.', rs_sync_product_copy() );
+	}
+
+	$log = array_merge( $log, rs_setup_store_controls( $args ) );
 
 	$pages = array(
 		'delivery-returns' => array( 'التوصيل والاستبدال', rs_page_delivery() ),
@@ -304,14 +345,164 @@ function rs_run_setup( $args ) {
 	}
 	$log[] = 'تم إنشاء صفحات التوصيل والاستبدال، ومن نحن، وتواصل معنا، والشروط والأحكام، وسياسة الخصوصية.';
 
-	$shop = wc_get_page_id( 'shop' );
-	if ( $shop > 0 ) {
-		wp_update_post( array( 'ID' => $shop, 'post_title' => 'المتجر' ) );
+	// WooCommerce names its pages in English when its Arabic language pack is missing.
+	foreach ( array( 'shop' => 'المتجر', 'cart' => 'السلة', 'checkout' => 'إتمام الطلب', 'myaccount' => 'حسابي' ) as $wc_page => $title ) {
+		$pid = wc_get_page_id( $wc_page );
+		if ( $pid > 0 ) {
+			wp_update_post( array( 'ID' => $pid, 'post_title' => $title ) );
+		}
 	}
 
 	flush_rewrite_rules();
 	update_option( 'rs_setup_done', 1 );
 	delete_transient( 'rs_show_setup_notice' );
+	return $log;
+}
+
+/** Rewrite names and descriptions of existing catalog products from catalog.json; prices, images and stock stay as the owner set them. */
+function rs_sync_product_copy() {
+	$n = 0;
+	foreach ( array_values( rs_catalog_products() ) as $order => $p ) {
+		$prod = wc_get_product( wc_get_product_id_by_sku( $p['sku'] ) );
+		if ( ! $prod ) {
+			continue;
+		}
+		$prod->set_name( $p['name'] );
+		$prod->set_slug( sanitize_title( $p['en'] ) );
+		$prod->set_short_description( $p['short'] );
+		$prod->set_description( rs_product_description( $p ) );
+		$prod->set_menu_order( $order );
+		$prod->save();
+		$n++;
+	}
+	return $n;
+}
+
+function rs_category_photo_sku( $slug ) {
+	$map = array(
+		'towels'         => 'RS-TW-02',
+		'robes-slippers' => 'RS-RB-01',
+		'bedding'        => 'RS-BD-07',
+		'mattresses'     => 'RS-MT-01',
+		'bath-amenities' => 'RS-AM-01',
+		'dead-sea'       => 'RS-DS-01',
+		'dead-sea-face'  => 'RS-DS-06',
+		'dead-sea-body'  => 'RS-DS-03',
+	);
+	return $map[ $slug ] ?? '';
+}
+
+/** 'active', 'installed' or '' for the official HyperPay plugin. */
+function rs_card_plugin_state() {
+	$file = 'hyperpay-gateways/hyperpay-gateways.php';
+	if ( ! function_exists( 'get_plugins' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	$found = '';
+	foreach ( array_keys( get_plugins() ) as $f ) {
+		if ( 0 === strpos( $f, 'hyperpay-gateways/' ) ) {
+			$found = $f;
+			break;
+		}
+	}
+	if ( ! $found ) {
+		return '';
+	}
+	return is_plugin_active( $found ) ? 'active' : 'installed';
+}
+
+/** Stock tracking, Arabic order emails in the brand colours, and an optional Shop Manager account. */
+function rs_setup_store_controls( $args ) {
+	$log   = array();
+	$email = rs_opt( 'rs_email' );
+	$email = is_email( $email ) && false === strpos( $email, 'example.com' ) ? $email : get_option( 'admin_email' );
+
+	$stock = array(
+		'woocommerce_manage_stock'               => 'yes',
+		'woocommerce_notify_low_stock'           => 'yes',
+		'woocommerce_notify_no_stock'            => 'yes',
+		'woocommerce_notify_low_stock_amount'    => '2',
+		'woocommerce_notify_no_stock_amount'     => '0',
+		'woocommerce_stock_email_recipient'      => $email,
+		'woocommerce_hide_out_of_stock_items'    => 'no',
+		'woocommerce_hold_stock_minutes'         => '60',
+		'woocommerce_stock_format'               => '',
+	);
+	foreach ( $stock as $k => $v ) {
+		update_option( $k, $v );
+	}
+	$log[] = 'تم تفعيل تتبّع المخزون، ويصلك بريد عندما تبقى قطعتان من أي منتج وعند نفاده.';
+
+	if ( null !== $args['stock'] ) {
+		$n = 0;
+		foreach ( rs_catalog_products() as $p ) {
+			$prod = null === $p['price'] ? null : wc_get_product( wc_get_product_id_by_sku( $p['sku'] ) );
+			if ( ! $prod ) {
+				continue;
+			}
+			$prod->set_manage_stock( true );
+			$prod->set_stock_quantity( $args['stock'] );
+			$prod->save();
+			$n++;
+		}
+		$log[] = sprintf( 'تم ضبط كمية %d لـ %d منتجاً. عدّل كمية كل منتج من صفحته عند الحاجة.', $args['stock'], $n );
+	}
+
+	$mail = array(
+		'woocommerce_email_from_name'             => 'Room & Salt',
+		'woocommerce_email_from_address'          => $email,
+		'woocommerce_email_header_image'          => get_theme_file_uri( 'assets/img/logo-email.png' ),
+		'woocommerce_email_footer_text'           => 'Room & Salt · للاستفسار راسلنا عبر واتساب ' . rs_wa_display(),
+		'woocommerce_email_base_color'            => '#12343A',
+		'woocommerce_email_background_color'      => '#F7F4EE',
+		'woocommerce_email_body_background_color' => '#FFFFFF',
+		'woocommerce_email_text_color'            => '#0F1B1E',
+	);
+	foreach ( $mail as $k => $v ) {
+		update_option( $k, $v );
+	}
+	$texts = array(
+		'new_order'                 => array( 'طلب جديد رقم {order_number}', 'طلب جديد: {order_number}', $email ),
+		'cancelled_order'           => array( 'أُلغي الطلب رقم {order_number}', 'طلب ملغى: {order_number}', $email ),
+		'failed_order'              => array( 'تعذّر الدفع للطلب رقم {order_number}', 'دفع غير مكتمل: {order_number}', $email ),
+		'customer_on_hold_order'    => array( 'استلمنا طلبك رقم {order_number} من Room & Salt', 'شكراً لطلبك', null ),
+		'customer_processing_order' => array( 'طلبك رقم {order_number} قيد التجهيز', 'شكراً لطلبك', null ),
+		'customer_completed_order'  => array( 'طلبك رقم {order_number} في الطريق إليك', 'طلبك في الطريق', null ),
+		'customer_refunded_order'   => array( 'أعدنا مبلغ الطلب رقم {order_number}', 'تمت إعادة المبلغ', null ),
+		'customer_note'             => array( 'ملاحظة على طلبك رقم {order_number}', 'ملاحظة على طلبك', null ),
+	);
+	foreach ( $texts as $id => $t ) {
+		$s = array_merge( (array) get_option( "woocommerce_{$id}_settings", array() ), array( 'enabled' => 'yes', 'subject' => $t[0], 'heading' => $t[1] ) );
+		if ( $t[2] ) {
+			$s['recipient'] = $t[2];
+		}
+		update_option( "woocommerce_{$id}_settings", $s );
+	}
+	$log[] = sprintf( 'رسائل الطلبات بالعربية، ويصل كل طلب جديد إلى %s.', $email );
+
+	if ( $args['staff'] ) {
+		if ( email_exists( $args['staff'] ) ) {
+			$log[] = 'بريد الموظف مسجّل مسبقاً، فلم يُنشأ حساب جديد.';
+		} else {
+			$login = sanitize_user( strtok( $args['staff'], '@' ), true );
+			while ( username_exists( $login ) ) {
+				$login .= wp_rand( 1, 9 );
+			}
+			$uid = wp_insert_user( array(
+				'user_login' => $login,
+				'user_email' => $args['staff'],
+				'user_pass'  => wp_generate_password( 24 ),
+				'role'       => 'shop_manager',
+				'locale'     => 'ar',
+			) );
+			if ( is_wp_error( $uid ) ) {
+				$log[] = 'تعذّر إنشاء حساب الموظف: ' . $uid->get_error_message();
+			} else {
+				wp_new_user_notification( $uid, null, 'user' );
+				$log[] = sprintf( 'تم إنشاء حساب «مدير متجر» باسم %s، وأُرسل له بريد لاختيار كلمة المرور.', $login );
+			}
+		}
+	}
 	return $log;
 }
 

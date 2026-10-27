@@ -31,7 +31,11 @@ $cats = function_exists( 'rs_catalog_top_categories' ) ? rs_catalog_top_categori
 <?php foreach ( $cats as $slug => $c ) : ?>
 <!-- wp:html -->
 <a class="rs-cat" href="<?php echo esc_url( rs_link( 'cat:' . $slug ) ); ?>">
-	<img src="<?php echo rs_img( 'art/cat-' . $slug . '.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
+	<?php
+	$sku = function_exists( 'rs_category_photo_sku' ) ? rs_category_photo_sku( $slug ) : '';
+	$rel = $sku && file_exists( get_theme_file_path( "assets/photos/{$sku}.jpg" ) ) ? "photos/{$sku}.jpg" : "art/cat-{$slug}.jpg";
+	?>
+	<img src="<?php echo rs_img( $rel ); ?>" alt="" loading="lazy" width="900" height="900">
 	<span class="rs-cat-name"><?php echo esc_html( $c['name'] ); ?></span>
 	<span class="rs-cat-en" lang="en" dir="ltr"><?php echo esc_html( $c['en'] ); ?></span>
 </a>

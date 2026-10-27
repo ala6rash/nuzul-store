@@ -11,6 +11,8 @@ define( 'RS_VERSION', '1.0.0' );
 
 require_once get_theme_file_path( 'inc/catalog.php' );
 require_once get_theme_file_path( 'inc/setup.php' );
+require_once get_theme_file_path( 'inc/security.php' );
+require_once get_theme_file_path( 'inc/seo.php' );
 
 /* -------------------------------------------------------------------------
  * Theme supports and assets
@@ -241,6 +243,14 @@ add_filter( 'woocommerce_checkout_fields', function ( $fields ) {
 	return $fields;
 } );
 
+/** When an order qualifies for free delivery, offer only that, so nobody pays for delivery by mistake. */
+add_filter( 'woocommerce_package_rates', function ( $rates ) {
+	$free = array_filter( $rates, function ( $rate ) {
+		return 'free_shipping' === $rate->get_method_id();
+	} );
+	return $free ? $free : $rates;
+}, 100 );
+
 add_filter( 'loop_shop_per_page', function () {
 	return 16;
 } );
@@ -254,6 +264,49 @@ function rs_sku_price( $sku, $fallback ) {
 	$p  = $id ? wc_get_product( $id ) : null;
 	return $p && '' !== $p->get_price() ? wc_format_localized_price( $p->get_price() + 0 ) : $fallback;
 }
+
+/**
+ * Arabic fallback for the WooCommerce labels customers see, used only while
+ * WooCommerce's Arabic language pack is missing (the pack wins when installed).
+ */
+function rs_wc_fallback_strings() {
+	return array(
+		'Description'      => 'الوصف',
+		'Related products' => 'منتجات ذات صلة',
+		'Home'             => 'الرئيسية',
+		'Category:'        => 'القسم:',
+		'Categories:'      => 'الأقسام:',
+		'SKU:'             => 'رمز المنتج:',
+		'%s in stock'      => '%s متوفر في المخزون',
+		'In stock'         => 'متوفر',
+		'Out of stock'     => 'نفد من المخزون',
+		'Only %s left in stock' => 'بقي %s فقط في المخزون',
+		'Cart'             => 'السلة',
+		'Checkout'         => 'إتمام الطلب',
+		'Proceed to Checkout' => 'إتمام الطلب',
+		'Place Order'      => 'تأكيد الطلب',
+		'Subtotal'         => 'المجموع الفرعي',
+		'Total'            => 'الإجمالي',
+		'Shipping'         => 'التوصيل',
+		'Your cart is currently empty!' => 'سلتك فارغة.',
+	);
+}
+
+add_filter( 'gettext_woocommerce', function ( $translation, $text ) {
+	if ( $translation !== $text || 0 !== strpos( determine_locale(), 'ar' ) ) {
+		return $translation;
+	}
+	$map = rs_wc_fallback_strings();
+	return $map[ $text ] ?? $translation;
+}, 10, 2 );
+
+/** WooCommerce's product template stores the "Category:" and "SKU:" prefixes in English inside the block markup. */
+add_filter( 'render_block', function ( $html, $block ) {
+	if ( ! in_array( $block['blockName'], array( 'core/post-terms', 'woocommerce/product-sku' ), true ) || 0 !== strpos( determine_locale(), 'ar' ) ) {
+		return $html;
+	}
+	return strtr( $html, array( '>Category: <' => '>القسم: <', '>Categories: <' => '>الأقسام: <', '>Tags: <' => '>الوسوم: <', '>SKU: <' => '>رمز المنتج: <', 'SKU:' => 'رمز المنتج:' ) );
+}, 10, 2 );
 
 /** Write the dinar the way Jordanians read it: د.أ */
 add_filter( 'woocommerce_currency_symbol', function ( $symbol, $currency ) {

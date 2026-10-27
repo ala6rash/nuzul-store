@@ -211,6 +211,7 @@ p { margin: 0; }
 .pm-info .en { font-family: var(--latin); color: var(--muted); direction: ltr; text-align: end; }
 .pm-info .price { font-size: 1.6rem; }
 .pm-info ul { margin: 0; padding-inline-start: 1.2rem; color: var(--muted); }
+.pm-info .desc { color: var(--muted); line-height: 1.8; }
 .qty { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r); background: #fff; }
 .qty button { width: 44px; height: 46px; border: 0; background: none; font-size: 1.2rem; cursor: pointer; color: var(--deep); }
 .qty output { min-width: 40px; display: grid; place-items: center; font-variant-numeric: tabular-nums; }

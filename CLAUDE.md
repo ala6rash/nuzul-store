@@ -45,7 +45,7 @@ download/                 room-salt-theme.zip, room-salt-brand-kit.zip (rebuild 
 theme/nuzul/, docs/, brand/ (old files), tools/*.py|sh   Previous Nuzul version, kept for reference.
 ```
 
-`docs/` (GitHub Pages) still shows the old Nuzul static demo. GitHub's terms forbid running a store on Pages;
+`docs/` (GitHub Pages) is a static Room & Salt demo (cart → WhatsApp). `docs/data.js` mirrors catalog.json text. GitHub's terms forbid running a store on Pages;
 it is a preview only.
 
 ## Brand identity
@@ -76,6 +76,26 @@ accents wrapped in `<span lang="en" dir="ltr">` (only those get tracking).
 - **About page stays empty** (`rs_page_about()` returns `''`) until the owner provides text.
 - Terms and privacy pages are drafts — must be reviewed by a lawyer before launch.
 - Supplier certificate (Beauty Secret GMP) shown in photos **expired Jan 2024** — do not display it.
+
+## Store controls (inc/)
+
+- `setup.php` also: stock tracking + low-stock email, optional opening quantity, Arabic order-email subjects in brand colours
+  (`assets/img/logo-email.png`), optional Shop Manager account, "sync" option that rewrites existing product names,
+  descriptions, slugs (from `en`) and order from catalog.json. Card section links the official HyperPay plugin (`hyperpay-gateways`).
+- `security.php`: 5 failed logins → 15-min lock, generic login error, no XML-RPC, no author/user enumeration, DISALLOW_FILE_EDIT, headers.
+- `seo.php`: meta description + Open Graph (skipped if an SEO plugin is active), OnlineStore JSON-LD on home, WebP thumbnails.
+  WooCommerce itself outputs Product JSON-LD (price, stock, SKU).
+- `functions.php`: free shipping hides paid rates; Arabic fallback for WooCommerce labels when its language pack is missing.
+- `LAUNCH.md`: Arabic owner guide (install, caching, backups, updates, daily orders, cards).
+
+Testing in Playground: SQLite can't run WooCommerce's stock-reservation SQL; the test blueprint adds a mu-plugin returning 0
+from `woocommerce_order_hold_stock_minutes`. Not needed on MySQL hosting. Playground auto-login resets the login counter
+between HTTP requests; the lockout was verified inside one request.
+
+## Product copy
+
+`tools/room-salt/copy_catalog.py` holds the edited copy (MSA). Dead Sea effects are attributed to the manufacturer
+(«تقول الشركة المصنّعة…») and come from b-secrets.com product pages; sizes only where printed on the pack.
 
 ## Open items
 

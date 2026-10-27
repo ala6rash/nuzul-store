@@ -145,8 +145,10 @@ img { max-width: 100%; height: auto; }
 .wp-block-woocommerce-add-to-cart-form .quantity .qty { border-radius: 2px; border: 1px solid var(--rs-line); padding: 0.65rem; min-height: 48px; }
 .rs-wa-product { margin-top: 0.75rem; }
 .rs-illus-note { font-size: var(--wp--preset--font-size--xs); color: var(--wp--preset--color--muted); margin-top: 0.5rem; }
-.rs-en { color: var(--wp--preset--color--muted); font-size: var(--wp--preset--font-size--sm); text-align: start; }
+.rs-en { color: var(--wp--preset--color--muted); font-size: var(--wp--preset--font-size--sm); text-align: end; }
 .woocommerce-Tabs-panel ul, .wp-block-woocommerce-product-details ul { padding-inline-start: 1.2rem; }
+/* The tab is already labelled «الوصف»; WooCommerce repeats it as a heading inside the panel. */
+.woocommerce-Tabs-panel--description > h2:first-child { display: none; }
 
 /* WhatsApp links */
 .rs-wa-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--wp--preset--color--deep); font-weight: 500; }

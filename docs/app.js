@@ -108,6 +108,7 @@
 				<p class="en" lang="en">${esc(p.en)}</p>
 				${p.price !== null ? `<p class="price">${money(p.price)}</p>` : '<p class="price ask">السعر عند الطلب</p>'}
 				<p>${esc(p.short)}</p>
+				${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
 				${p.specs.length ? `<ul>${p.specs.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>` : ''}
 				<div class="pm-buy">${buy}
 					<a class="btn btn-wa" href="${waUrl(`مرحباً Room & Salt، ${p.price !== null ? 'أود طلب' : 'أود معرفة سعر'}: ${p.name}`)}" target="_blank" rel="noopener">${p.price !== null ? 'اطلب عبر واتساب' : 'اسأل عن السعر عبر واتساب'}</a>
