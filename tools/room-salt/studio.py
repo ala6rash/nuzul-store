@@ -41,6 +41,12 @@ def compose(sku, cut, fill=0.74):
 sess = new_session(sys.argv[1] if len(sys.argv) > 1 else "isnet-general-use")
 skus = sys.argv[2].split(",") if len(sys.argv) > 2 else sorted(set(SRC) | set(C))
 for sku in skus:
+    png = os.path.join(S, "png", sku + ".png")
+    if os.path.exists(png):  # supplier's own transparent cut-out, sharper than ours
+        cut = Image.open(png).convert("RGBA")
+        out = compose(sku, cut, 0.70).filter(ImageFilter.UnsharpMask(1.2, 40, 2))
+        out.save(os.path.join(S, "out", sku + ".jpg"), quality=88, optimize=True, progressive=True)
+        print(sku, "png", cut.size, flush=True); continue
     im = fetch(sku)
     if sku in C:
         im = ImageOps.autocontrast(im, cutoff=0.5); im = ImageEnhance.Brightness(im).enhance(1.05)
