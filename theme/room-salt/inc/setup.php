@@ -271,11 +271,16 @@ function rs_run_setup( $args ) {
 			$prod->set_featured( ! empty( $p['featured'] ) );
 			$prod->set_stock_status( 'instock' );
 			$prod->set_category_ids( array_filter( $cats ) );
-			$prod->set_image_id( rs_import_image( "art/{$p['sku']}.jpg", $p['name'] ) );
-			if ( file_exists( get_theme_file_path( "assets/real/{$p['sku']}.jpg" ) ) ) {
+			// Real photo first (manufacturer or showroom); the drawing only where no photo exists yet.
+			$has_photo = file_exists( get_theme_file_path( "assets/photos/{$p['sku']}.jpg" ) );
+			$prod->set_image_id( rs_import_image( ( $has_photo ? 'photos/' : 'art/' ) . "{$p['sku']}.jpg", $p['name'] ) );
+			$supplier = 0 === strpos( $p['sku'], 'RS-DS-' );
+			if ( $supplier && file_exists( get_theme_file_path( "assets/real/{$p['sku']}.jpg" ) ) ) {
 				$prod->set_gallery_image_ids( array( rs_import_image( "real/{$p['sku']}.jpg", $p['name'] . ' (صورة من المعرض)' ) ) );
 			}
-			$prod->update_meta_data( '_rs_illustration', 1 );
+			if ( ! $has_photo ) {
+				$prod->update_meta_data( '_rs_illustration', 1 );
+			}
 			$prod->save();
 			$made++;
 		}

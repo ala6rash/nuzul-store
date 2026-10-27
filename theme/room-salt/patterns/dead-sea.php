@@ -36,10 +36,10 @@
 <div class="wp-block-column is-vertically-aligned-center">
 <!-- wp:html -->
 <div class="rs-sea-grid">
-	<img src="<?php echo rs_img( 'art/RS-DS-06.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
-	<img src="<?php echo rs_img( 'art/RS-DS-01.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
-	<img src="<?php echo rs_img( 'art/RS-DS-03.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
-	<img src="<?php echo rs_img( 'art/RS-DS-22.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
+	<img src="<?php echo rs_img( 'photos/RS-DS-06.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
+	<img src="<?php echo rs_img( 'photos/RS-DS-01.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
+	<img src="<?php echo rs_img( 'photos/RS-DS-03.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
+	<img src="<?php echo rs_img( 'photos/RS-DS-22.jpg' ); ?>" alt="" loading="lazy" width="900" height="900">
 </div>
 <!-- /wp:html -->
 </div>

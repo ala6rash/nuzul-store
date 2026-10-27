@@ -23,7 +23,7 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: var(--deep); }
 button, input, select, textarea { font: inherit; color: inherit; letter-spacing: normal; }
 [hidden] { display: none !important; }
-[lang="en"] { unicode-bidi: isolate; }
+[lang="en"] { unicode-bidi: isolate; direction: ltr; }
 h1, h2, h3 { font-family: var(--display); color: var(--deep); line-height: 1.35; margin: 0; font-weight: 600; text-wrap: balance; }
 h2 { font-size: clamp(1.75rem, 3.6vw, 2.6rem); }
 h3 { font-family: var(--body); font-size: 1.1rem; }
@@ -273,7 +273,8 @@ p { margin: 0; }
 	.nav { gap: 1rem; font-size: .88rem; }
 }
 @media (max-width: 860px) {
-	.nav { display: none; }
+	.header-in { flex-wrap: wrap; row-gap: 0; }
+	.nav { order: 3; width: 100%; overflow-x: auto; gap: 1.2rem; padding-bottom: .6rem; white-space: nowrap; scrollbar-width: none; }
 	.hero-in, .sea-in, .two, .co-grid, .pm { grid-template-columns: 1fr; }
 	.hero-art { max-width: 340px; order: -1; }
 	.hero-tag { inset-inline-end: 0; font-size: 1.1rem; }
